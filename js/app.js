@@ -195,7 +195,7 @@ function outputData(){
     $("#loadingImageMod").hide();
 
     if( document.querySelector(".modal-title").innerText !== countryData.country){
-        document.querySelector(".modal-title").innerText = document.querySelector(".modal-title").innerText +" / "+countryData.country;
+        document.querySelector(".modal-title").innerText = document.querySelector(".modal-title").innerText +" /<span class='text-fade'>"+countryData.country+"</span>";
     }
     flagImage = document.createElement("img");
     flagImage.classList.add("output");
