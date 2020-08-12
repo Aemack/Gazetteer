@@ -27,36 +27,20 @@
     <body>
         <header>
             <h1 id="heading">Gazetteer</h1>
-<!--
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                  Pick A Country
-                </button>
-                <div id="dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <h2>HELLO</h2>
-                </div>
-              </div>
-            -->
-
-
-
-
-            
                 <form onsubmit="event.preventDefault(), getCountryData()" id="searchbar">
-                <select class="form-control form-control-lg text-center"  id="countryQuery" name="countryQuery">
-                </select>
-                <div class=".container">
-                  <button id="searchButton" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
-                </div>
+                  <select class="form-control form-control-lg text-center"  id="countryQuery" name="countryQuery"></select>
+                  <div class=".container">
+                    <button id="searchButton" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
+                  </div>
                 </form>
             
 
         </header>
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+                    <h5 class="modal-title text-center" id="modalLabel"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>

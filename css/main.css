@@ -7,7 +7,7 @@
 
     --clr-light: #fbf5f3;
     --clr-dark: #0F0E0E;
-    --clr-accent1:#D2D0BA;
+    --clr-accent1:rgb(16,55,75);
     --clr-accent2: #B6BE9C;
 
     --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25),0.25em 0.25em 0.75em rgba(0,0,0,.55);
@@ -15,8 +15,10 @@
 
 header, #heading{
     margin:0;
+    padding: 10px;
     text-align: center;
-    background: var(--clr-accent2);
+    color:var(--clr-accent2);
+    background: var(--clr-accent1);
 
 }
 
