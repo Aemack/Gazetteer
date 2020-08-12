@@ -45,7 +45,7 @@ function getAllData($name){
     $json_result = curl_exec($curl);
     
     $r = json_decode($json_result, true);
-    $curIso = $result["currency"]["iso"];
+    $curIso = $result["result"]["currency"]["iso"];
     $result["result"]["currency"]["exchRate"]=$curIso;//$r["rates"][$curIso];
 
 
