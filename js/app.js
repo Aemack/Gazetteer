@@ -23,21 +23,6 @@ function getCountryData(lat,lng){
         clearOutput()
         if (!lat && !lng){
             country = $("#countryQuery").val().split(" ").join("%20");
-            if (country === "Palestine"){
-                obj = {
-                    ISoa2:"PS",
-                    ISOa3:"PSE",
-                    capital:"Jerusalem",
-                    country:"Palestinian Territory",
-                    geometry:{lat:31.2752047,lng:34.2558269},
-                    currency:{
-                        iso:"EGP",
-                        name:"Egyptian pound"
-                    }
-    
-                }
-                restCountriesData(obj)
-            }else{
             jQuery.ajax({
                 type: "POST",
                 url: 'php/gazetteer.php',
@@ -55,7 +40,8 @@ function getCountryData(lat,lng){
                         error: ()=>{console.log("Error: "+country)}
                     })
                 }
-            })}
+            })    
+            
         } else {
             latlng = lat+","+lng
             jQuery.ajax({
