@@ -9,10 +9,15 @@
     --clr-dark: #0F0E0E;
     --clr-accent1:#D2D0BA;
     --clr-accent2: #B6BE9C;
-    --clr-accent3: #b59194;
-    --clr-accent4: #5E747F; 
 
     --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25),0.25em 0.25em 0.75em rgba(0,0,0,.55);
+}
+
+header, #heading{
+    margin:0;
+    text-align: center;
+    background: var(--clr-accent2);
+
 }
 
 #mapid { 
@@ -27,6 +32,6 @@
 }
 
 .flag{
-    width:25%;
+    width:50%;
 }
  
