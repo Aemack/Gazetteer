@@ -62,7 +62,7 @@ function getCountryData(lat,lng){
             })
         }
     }
-}
+
 
 window.onload = function(){
     if (navigator.geolocation){
