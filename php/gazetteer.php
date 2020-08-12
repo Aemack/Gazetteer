@@ -1,6 +1,74 @@
 <?php
 $result = array();
 
+function getAllData($name){
+    $curl = curl_init("https://api.opencagedata.com/geocode/v1/json?q=".$name."&key=b31118c454714ac5bff8f1535317f621");
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $json_result = curl_exec($curl);
+
+    
+    $r = json_decode($json_result, true);
+    
+    $result["result"]["currency"]["name"] = $r["results"][0]["annotations"]["currency"]["name"];
+    $result["result"]["currency"]["iso"] = $r["results"][0]["annotations"]["currency"]["iso_code"];
+    $result["result"]["ISOa2"] = $r["results"][0]["components"]["ISO_3166-1_alpha-2"];
+    $result["result"]["ISOa3"] = $r["results"][0]["components"]["ISO_3166-1_alpha-3"];
+    $result["result"]["country"] = $r["results"][0]["components"]["country"];
+    $result["result"]["geometry"]["lat"] = $r["results"][0]["geometry"]["lat"];
+    $result["result"]["geometry"]["lng"] = $r["results"][0]["geometry"]["lng"];
+
+    $curl = curl_init("https://restcountries.eu/rest/v2/alpha?codes=".$result["result"]["ISOa3"]);
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $json_result = curl_exec($curl);
+    
+    $r = json_decode($json_result, true);
+
+    $result["result"]["population"]=$r[0]["population"];
+    $result["result"]["capital"]=$r[0]["capital"];
+    $result["result"]["flag"]=$r[0]["flag"];
+
+    
+    $curl = curl_init("https://openexchangerates.org/api/latest.json?app_id=5eeb7bdfb5d94387a56d7dcd9413b55f");
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $json_result = curl_exec($curl);
+    
+    $r = json_decode($json_result, true);
+
+    $result["result"]["exchRate"]=$r["rates"][$curCode];
+
+
+    
+
+    $curl = curl_init("https://api.openweathermap.org/data/2.5/forecast?lat=".$result["result"]["geometry"]["lat"]."&lon=".$result["result"]["geometry"]["lng"]."&cnt=5&appid=c0a8cf4628667898c6a3d913189f3596");
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $json_result = curl_exec($curl);
+    
+    $r = json_decode($json_result, true);
+    $i=0;
+    foreach( $r["list"] as $day){
+
+        $result["result"]["weather"][$i]=$day;
+        $i++;
+    }
+
+}
+
 function getCountries(){
 
     
@@ -154,6 +222,9 @@ switch($_POST['functionname']) {
         break;
     case 'getAltData':
         $result=getAltName(($_POST['arguments'][0]));
+        break;
+    case 'getAllData':
+        $result=getAllData(($_POST['arguments'][0]));
         break;
 }
 

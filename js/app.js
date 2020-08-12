@@ -1,5 +1,69 @@
 var mymap;
-countryData = {}; 
+countryData = {};
+
+function logData(obj){
+    console.log(obj)
+}
+
+function getCountryData(lat,lng){
+        document.querySelector(".modal-title").innerText = $("#countryQuery").val();
+        $("#loadingImageMod").hide();
+        $("#mapid").hide()
+        $("#loadingImage").show()
+        
+        clearOutput()
+        if (!lat && !lng){
+            country = $("#countryQuery").val().split(" ").join("%20");
+            if (country === "Palestine"){
+                obj = {
+                    ISoa2:"PS",
+                    ISOa3:"PSE",
+                    capital:"Jerusalem",
+                    country:"Palestinian Territory",
+                    geometry:{lat:31.2752047,lng:34.2558269},
+                    currency:{
+                        iso:"EGP",
+                        name:"Egyptian pound"
+                    }
+    
+                }
+                restCountriesData(obj)
+            }else{
+            jQuery.ajax({
+                type: "POST",
+                url: 'php/gazetteer.php',
+                dataType: 'json',
+                data: {functionname: 'getAllData', arguments: [country]},
+                success: logData,
+                error:function(){
+                    console.log("Could not locate")
+                    jQuery.ajax({
+                        type: "POST",
+                        url: 'php/gazetteer.php',
+                        dataType: 'json',
+                        data: {functionname: 'getAltData', arguments: [country]},
+                        success: restCountriesData,
+                        error: ()=>{console.log("Error: "+country)}
+                    })
+                }
+            })}
+        } else {
+            latlng = lat+","+lng
+            jQuery.ajax({
+                type: "POST",
+                url: 'php/gazetteer.php',
+                dataType: 'json',
+                data: {functionname: 'getCountryData', arguments: [latlng]},
+                success: restCountriesData,
+                error:function(){
+                    
+                    console.log("ERRUR: CUD NUT FIND CUNTRY")
+                }
+            })
+        }
+    }
+}
+
 window.onload = function(){
     if (navigator.geolocation){
 
@@ -37,6 +101,7 @@ function fillSelect(obj){
     }
 }
 
+//Initialises Map
 function loadMap(lat,long){
     
     mymap = L.map('mapid').setView([0, 0], 3)
@@ -47,11 +112,11 @@ function loadMap(lat,long){
     tiles.addTo(mymap);
     mymap.invalidateSize()
 }
-
+//Loads location onto map
 function newMap(lat, lng){
     mymap.panTo(new L.LatLng(lat, lng));
 }
-
+/*
 //Gets Country/Lat/Long/ISOCodes/CurrencyName/CurrencyISOCode/
 function getCountryData(lat,lng){
     document.querySelector(".modal-title").innerText = $("#countryQuery").val();
@@ -188,7 +253,7 @@ function clearOutput(){
         output.remove()
     })
 }
-
+*/
 function outputData(){ 
 
     
