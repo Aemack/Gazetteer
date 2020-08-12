@@ -243,7 +243,7 @@ function getWeather(obj){
         }
     })
 }
-
+*/
 function logData(obj){
     countryData.weather = obj;
     console.log(countryData)
@@ -255,14 +255,7 @@ function logData(obj){
 
 }
 
-function clearOutput(){
-    $("#error").hide()
-    outputs = document.querySelectorAll(".output")
-    outputs.forEach((output)=>{
-        output.remove()
-    })
-}
-*/
+
 function outputData(){ 
 
     
