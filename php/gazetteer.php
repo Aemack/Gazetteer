@@ -46,7 +46,7 @@ function getAllData($name){
     
     $r = json_decode($json_result, true);
 
-    $result["result"]["exchRate"]=$r["rates"][$curCode];
+    $result["result"]["currency"]["exchRate"]=$r["rates"][$curCode];
 
 
     
