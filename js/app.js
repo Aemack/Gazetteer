@@ -1,6 +1,15 @@
 var mymap;
 countryData = {};
 
+function clearOutput(){
+    $("#error").hide()
+    outputs = document.querySelectorAll(".output")
+    outputs.forEach((output)=>{
+        output.remove()
+    })
+}
+
+
 function logData(obj){
     console.log(obj)
 }
