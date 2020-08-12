@@ -86,12 +86,9 @@ function getCountries(){
     
     
     for ($i=0; $i < count($r) ;$i++){
-       /* if (strpos($r[$i]["name"], 'Korea') !== false) {
-            $r[$i]["name"]="Korea (South)";
+        if (strpos($r[$i]["name"], 'Korea') !== false) {
+            $r[$i]["name"]="Korea";
         }
-        if (strpos($r[$i]["name"], 'Palestine') !== false) {
-            $r[$i]["name"]="Palestine";
-        }*/
         $result[$i] = $r[$i]["name"];
     }
     
