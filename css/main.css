@@ -1,0 +1,32 @@
+:root {
+    --ff-primary: 'Spource Sans Pro', sans-serif;
+    --ff-secondary: 'Source Code Pro', monospace;
+
+    --fw-reg: 400;
+    --fw-bold: 900;
+
+    --clr-light: #fbf5f3;
+    --clr-dark: #0F0E0E;
+    --clr-accent1:#D2D0BA;
+    --clr-accent2: #B6BE9C;
+    --clr-accent3: #b59194;
+    --clr-accent4: #5E747F; 
+
+    --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25),0.25em 0.25em 0.75em rgba(0,0,0,.55);
+}
+
+#mapid { 
+    display:none;
+    height: 250px;
+    width:250px;
+}
+
+.leaflet-container{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.flag{
+    width:25%;
+}
+ 
