@@ -67,6 +67,8 @@ function getAllData($name){
         $i++;
     }
 
+    return $result
+
 }
 
 function getCountries(){
