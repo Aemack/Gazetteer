@@ -245,7 +245,6 @@ function getWeather(obj){
 }
 */
 function logData(obj){
-    countryData.weather = obj;
     console.log(countryData)
     newMap(countryData.geometry.lat,countryData.geometry.lng)
     $("#mapid").show()
