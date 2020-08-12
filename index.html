@@ -28,8 +28,11 @@
         <header>
             <h1 id="heading">Gazetteer</h1>
                 <form onsubmit="event.preventDefault(), getCountryData()" id="searchbar">
-                  <select class="form-control form-control-lg text-center"  id="countryQuery" name="countryQuery"></select>
+                  
+                  <select class="form-control form-control-lg text-center" placeholder="Pick a Country"  id="countryQuery" name="countryQuery"></select>
+                
                   <div class=".container">
+
                     <button id="searchButton" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
                   </div>
                 </form>
