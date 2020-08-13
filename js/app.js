@@ -114,6 +114,8 @@ function getDirections(obj){
     }
     latlong = currentLocation.lat+","+currentLocation.lng
     destLatlong = countryData.geometry.lat+","+countryData.geometry.lng
+    console.log(latlong)
+    console.log(destLatlong)
     jQuery.ajax({
         type: "POST",
         url: 'php/gazetteer.php',
