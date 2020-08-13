@@ -67,6 +67,8 @@ function getAllData($name){
         $i++;
     }
 
+    $result["result"]["wiki"] = "https://en.wikipedia.org/wiki/".$result["result"]["country"];
+
     return $result;
 
 }
