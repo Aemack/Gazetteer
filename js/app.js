@@ -155,3 +155,7 @@ function outputData(obj){
     document.querySelector("#currencyData").appendChild(currencyEx)
 
 }
+
+function collapseClicked(this){
+    console.log(this)
+}
