@@ -113,7 +113,7 @@ function getDirections(obj){
         "coordinates":[[currentLocation.lat,currentLocation.lng],[countryData.geometry.lat,countryData.geometry.lng]]
     }
     latlong = currentLocation.lat+","+currentLocation.lng
-    destLatlong = countryData.geometry.lat+","+countryData.geometry.lng
+    destLatlong = countryData.geometry.lat.toFixed(4)+","+countryData.geometry.lng.toFixed(4)
     console.log(latlong)
     console.log(destLatlong)
     jQuery.ajax({
