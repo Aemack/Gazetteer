@@ -72,6 +72,7 @@ function getCountryData(lat,lng){
         document.querySelector(".modal-title").innerText = $("#countryQuery").val();
         $("#mapid").hide()
         $("#countryButton").addClass('d-none'); 
+        $("#currencyButton").addClass('d-none'); 
         $("#modalFooter").hide()
         $("#loadingImage").show()
         
@@ -108,6 +109,7 @@ function outputData(obj){
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()
+    $("#currencyButton").removeClass('d-none'); 
     $("#countryButton").removeClass('d-none'); 
     mymap.invalidateSize()
 
