@@ -169,7 +169,7 @@ function outputData(obj){
 
     
     weatherElems = document.getElementById("collapseWeather").children
-    console.log(countryData)
+    console.log(countryData.weather[1].weather.main)
     for (i=0;i<countryData.weather.length;i+10){
         switch (countryData.weather[i].weather.main){
             case "clear":
