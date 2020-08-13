@@ -132,6 +132,7 @@ function outputData(){
     flagImage.classList.add("output");
     flagImage.classList.add("flag");
     flagImage.classList.add("card-body");
+    flagImage.classList.add("mx-auto");
     flagImage.src=countryData.flag;
 
     capitalName = document.createElement("h4");
@@ -161,7 +162,7 @@ function outputData(){
     document.querySelector("#countryData").appendChild(flagImage)
     document.querySelector("#countryData").appendChild(capitalName)
     document.querySelector("#countryData").appendChild(population)
-    //document.querySelector("#currencyData").appendChild(currencyName)
-    //document.querySelector("#currencyData").appendChild(currencyEx)
+    document.querySelector("#currencyData").appendChild(currencyName)
+    document.querySelector("#currencyData").appendChild(currencyEx)
 
 }
