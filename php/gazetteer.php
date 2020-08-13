@@ -4,15 +4,14 @@ $result = array();
 function getDirections($from,$end){
     $curl = curl_init();
 
-    curl_setopt($curl, CURLOPT_URL, "https://api.openrouteservice.org/v2/directions/driving-car/");
+    curl_setopt($curl, CURLOPT_URL, "https://api.openrouteservice.org/v2/matrix/driving-car");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HEADER, FALSE);
     curl_setopt($curl, CURLOPT_POST, TRUE);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, '{"coordinates":[['.$from.'],['.$end.']]},"radiuses":1000');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, '{"locations":[['.$from.'],['.$end.']]}');
     
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-      "Accept: application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",
-      "Authorization: 5b3ce3597851110001cf624823c917d1ecff477697fade82683b62d9",
+        "Accept: application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",
       "Content-Type: application/json; charset=utf-8"
     ));
     
