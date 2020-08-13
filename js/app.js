@@ -107,7 +107,7 @@ function getCountryData(lat,lng){
         }
 }
 
-function getDirections(){
+function getDirections(obj){
     countryData = obj.result;
     latlong = currentLocation.lat+","+currentLocation.lng
     destLatlong = countryData.geometry.lat+","+countryData.geometry.lng
