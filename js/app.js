@@ -148,9 +148,9 @@ function outputData(obj){
     currencyEx.classList.add("output");
     currencyEx.classList.add("card-body");
     if (countryData.currency.symbol_first){
-        currencyEx.innerText ="Exchange Rate: "+countryData.currency.symbol+ countryData.currency.exchRate
+        currencyEx.innerText ="Exchange Rate: "+countryData.currency.symbol+ countryData.currency.exchRate+ " = $1 USD"
     } else {
-        currencyEx.innerText ="Exchange Rate: "+countryData.currency.exchRate+countryData.currency.symbol
+        currencyEx.innerText ="Exchange Rate: "+countryData.currency.exchRate+countryData.currency.symbol+ " = $1 USD"
     }
 
     document.querySelector("#imageContainer").appendChild(flagImage)
