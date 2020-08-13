@@ -11,7 +11,6 @@ function clearOutput(){
 
 function getCountryData(lat,lng){
         document.querySelector(".modal-title").innerText = $("#countryQuery").val();
-        $("#loadingImageMod").hide();
         $("#mapid").hide()
         $("#loadingImage").show()
         
