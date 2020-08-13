@@ -13,8 +13,6 @@ window.onload = function(){
             success: fillSelect,
             error:function(){
                 console.log("Error loading country list")
-                $("#error").show()
-                $("#error").innerText="Could Not Load Country List"
             }
         })
         if (navigator.geolocation){
@@ -199,8 +197,13 @@ function outputData(obj){
 
 function collapseClicked(obj){
     if (obj.id == "currencyButton"){
+        $("#collapseWeather").collapse('hide')
         $("#collapseCountry").collapse('hide')
     }else if (obj.id == "countryButton"){
+        $("#collapseWeather").collapse('hide')
+        $("#collapseCurrency").collapse('hide')
+    } else if (obj.id == "weatherButton"){
+        $("#collapseCountry").collapse('hide')
         $("#collapseCurrency").collapse('hide')
     } else {
         $("#collapseCountry").collapse('hide')        
