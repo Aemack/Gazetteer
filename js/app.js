@@ -3,7 +3,6 @@ countryData = {};
 
 //Checks for geolocation/runs fillSelect
 window.onload = function(){
-    $("#optionButtons").hide()
 
         jQuery.ajax({
             type: "POST",
@@ -113,7 +112,6 @@ function outputData(obj){
     mymap.invalidateSize()
 
     
-    $("#loadingImageMod").hide();
 
     if( document.querySelector(".modal-title").innerText !== countryData.country){
         document.querySelector(".modal-title").innerText = document.querySelector(".modal-title").innerText +" / "+countryData.country;
