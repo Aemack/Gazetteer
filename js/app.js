@@ -167,6 +167,12 @@ function outputData(obj){
         currencyEx.innerText ="Exchange Rate: "+countryData.currency.exchRate+countryData.currency.symbol+ " = $1 USD"
     }
 
+
+    for (i=0;i<countryData.weather.length();i++){
+        console.log(countryData.weather[i])
+    }
+
+
     document.querySelector("#imageContainer").appendChild(flagImage)
     document.querySelector("#countryData").appendChild(capitalName)
     document.querySelector("#countryData").appendChild(population)
