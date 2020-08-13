@@ -110,6 +110,7 @@ function getCountryData(lat,lng){
 function outputData(obj){ 
     countryData = obj.result;
     console.log(currentLocation)
+    var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     newMap(countryData.geometry.lat,countryData.geometry.lng)
     $("#loadingImage").hide()
     $("#mapid").show()
