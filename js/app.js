@@ -1,5 +1,6 @@
 var mymap;
-countryData = {};
+var countryData = {};
+var currentLocation = {};
 
 //Checks for geolocation/runs fillSelect
 window.onload = function(){
@@ -17,8 +18,12 @@ window.onload = function(){
             }
         })
         if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(loadMap)
-        } else {loadMap()}
+            navigator.geolocation.getCurrentPosition((position)=>{
+                currentLocation.lat=position.coords.latitude;
+                currentLocation.lng=position.coords.longitude;
+            })
+        } 
+        loadMap()
 
 
 
@@ -104,7 +109,7 @@ function getCountryData(lat,lng){
 
 function outputData(obj){ 
     countryData = obj.result;
-    console.log(countryData)
+    console.log(currentLocation)
     newMap(countryData.geometry.lat,countryData.geometry.lng)
     $("#loadingImage").hide()
     $("#mapid").show()
