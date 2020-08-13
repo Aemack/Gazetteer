@@ -86,7 +86,7 @@ function getCountryData(lat,lng){
         
         clearOutput()
         if (!lat && !lng){
-        document.querySelector(".modal-title").innerText = $("#countryQuery").val();
+            document.querySelector(".modal-title").innerText = $("#countryQuery").val();
             country = $("#countryQuery").val().split(" ").join("%20");
             jQuery.ajax({
                 type: "POST",
@@ -113,7 +113,7 @@ function getCountryData(lat,lng){
 
 
 function outputData(obj){ 
-    console.log(obj)
+    console.log(obj.result.geometry.lat)
     var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
     newMap(obj.result.geometry.lat,obj.result.geometry.lng)
