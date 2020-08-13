@@ -8,7 +8,7 @@ function getDirections($from,$end){
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HEADER, FALSE);
     curl_setopt($curl, CURLOPT_POST, TRUE);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, '{"coordinates":[['.$from.'],['.$end.']]},"radiuses":200');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, '{"coordinates":[['.$from.'],['.$end.']]},"radiuses":1000');
     
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
       "Accept: application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",
