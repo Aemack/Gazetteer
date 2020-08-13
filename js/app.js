@@ -151,10 +151,10 @@ function outputData(){
     currencyEx.innerText ="Exchange Rate: "+ countryData.currency.exchRate
 
 
-    document.querySelector("#outputElem").appendChild(flagImage)
-    document.querySelector("#outputElem").appendChild(capitalName)
-    document.querySelector("#outputElem").appendChild(population)
-    document.querySelector("#outputElem").appendChild(currencyName)
-    document.querySelector("#outputElem").appendChild(currencyEx)
+    document.querySelector("#countryDataElem").appendChild(flagImage)
+    document.querySelector("#countryDataElem").appendChild(capitalName)
+    document.querySelector("#countryDataElem").appendChild(population)
+    document.querySelector("#currencyDataElem").appendChild(currencyName)
+    document.querySelector("#currencyDataElem").appendChild(currencyEx)
 
 }
