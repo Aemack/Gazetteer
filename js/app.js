@@ -91,19 +91,13 @@ function getCountryData(lat,lng){
                 type: "POST",
                 url: 'php/gazetteer.php',
                 dataType: 'json',
-                data: {functionname: 'getCountryData', arguments: [latlng]},
-                success: restCountriesData,
+                data: {functionname: 'getAllData', arguments: [latlng]},
+                success: outputData,
                 error:function(){
-                    
-                    console.log("ERRUR: CUD NUT FIND CUNTRY")
                 }
             })
         }
 }
-
-
-
-
 
 function outputData(obj){ 
     countryData = obj.result;
