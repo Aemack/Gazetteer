@@ -3,6 +3,7 @@ countryData = {};
 
 //Checks for geolocation/runs fillSelect
 window.onload = function(){
+    $("#optionButtons").hide()
 
         jQuery.ajax({
             type: "POST",
