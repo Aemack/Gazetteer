@@ -47,11 +47,8 @@ function loadMap(coords){
     const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tiles = L.tileLayer(tileUrl, { attribution });
     tiles.addTo(mymap);
-    var popup = L.popup()
-    .setLatLng([coords.coords.longitude, coords.coords.longitude])
-    .setContent("You are here!")
-    .openOn(mymap);
     mymap.invalidateSize()
+    L.marker([coords.coords.longitude, coords.coords.longitude], {icon: greenIcon}).addTo(mymap);
 }
 
 //Loads location onto map
@@ -165,6 +162,9 @@ function collapseClicked(obj){
         $("#collapseCountry").collapse('hide')
         console.log()
     }else if (obj.id == "countryButton"){
+        $("#collapseCurrency").collapse('hide')
+    } else {
+        $("#collapseCountry").collapse('hide')        
         $("#collapseCurrency").collapse('hide')
     }
 }
