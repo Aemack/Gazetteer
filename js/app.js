@@ -151,9 +151,9 @@ function outputData(){
     currencyEx.innerText ="Exchange Rate: "+ countryData.currency.exchRate
 
 
-    document.querySelector("#countryDataElem").appendChild(flagImage)
-    document.querySelector("#countryDataElem").appendChild(capitalName)
-    document.querySelector("#countryDataElem").appendChild(population)
+    document.querySelector("#countryData").appendChild(flagImage)
+    document.querySelector("#countryData").appendChild(capitalName)
+    document.querySelector("#countryData").appendChild(population)
     document.querySelector("#currencyDataElem").appendChild(currencyName)
     document.querySelector("#currencyDataElem").appendChild(currencyEx)
 
