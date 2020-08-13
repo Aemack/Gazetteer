@@ -1,6 +1,22 @@
 <?php
 $result = array();
 
+function getDirections($from,$destination){
+    $curl = curl_init("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf624823c917d1ecff477697fade82683b62d9&start=".$from."&end=".$destination);
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $json_result = curl_exec($curl);
+
+    
+    $r = json_decode($json_result, true);
+    $result["results"] = $r;
+    return $result;
+
+}
+
 function getAllData($name){
     $curl = curl_init("https://api.opencagedata.com/geocode/v1/json?q=".$name."&key=b31118c454714ac5bff8f1535317f621");
 

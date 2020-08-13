@@ -89,7 +89,7 @@ function getCountryData(lat,lng){
                 url: 'php/gazetteer.php',
                 dataType: 'json',
                 data: {functionname: 'getAllData', arguments: [country]},
-                success: outputData
+                success: getDirections
                 
             })    
             
@@ -100,11 +100,24 @@ function getCountryData(lat,lng){
                 url: 'php/gazetteer.php',
                 dataType: 'json',
                 data: {functionname: 'getAllData', arguments: [latlng]},
-                success: outputData,
+                success: getDirections,
                 error:function(){
                 }
             })
         }
+}
+
+function getDirections(){
+    latlong = currentLocation.lat+","+currentLocation.lng
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'getDirections', arguments: [latlong]},
+        success: outputData,
+        error:function(){
+        }
+    })
 }
 
 function outputData(obj){ 
