@@ -170,7 +170,8 @@ function outputData(obj){
 
     for (i=0;i<countryData.weather.length;i++){
         iElem = document.createElement("i").className="fas fa-sun"
-        document.getElementById(`weatherData${i}`).appendChild(iElem)
+        weatherElem = document.getElementById(`weatherData${i}`)
+        weatherElem.appendChild(iElem)
     }
 
     document.querySelector("#imageContainer").appendChild(flagImage)
