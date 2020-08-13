@@ -46,7 +46,6 @@ function loadMap(coords){
     const tiles = L.tileLayer(tileUrl, { attribution });
     tiles.addTo(mymap);
     mymap.invalidateSize()
-    L.marker([coords.coords.longitude, coords.coords.longitude], {icon: greenIcon}).addTo(mymap);
 }
 
 //Loads location onto map
