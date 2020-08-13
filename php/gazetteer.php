@@ -2,18 +2,24 @@
 $result = array();
 
 function getDirections($coordObj){
-    $curl = curl_init("https://api.openrouteservice.org/v2/directions/dhttps://api.openrouteservice.org/v2/directions/driving-car/geojson/?api_key=5b3ce3597851110001cf624823c917d1ecff477697fade82683b62d9&-d=".$coordObj);
+    $curl = curl_init();
 
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
-	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $json_result = curl_exec($curl);
-
+    curl_setopt($ch, CURLOPT_URL, "https://api.openrouteservice.org/v2/directions/driving-car/geojson");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, '"'.$coordObj.'"');
     
-    $r = json_decode($json_result, true);
-    $result["results"] = $r;
-    return $result;
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      "Accept: application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",
+      "Authorization: your-api-key",
+      "Content-Type: application/json; charset=utf-8"
+    ));
+    
+    $r = curl_exec($ch);
+
+
+    return $r;
 
 }
 
