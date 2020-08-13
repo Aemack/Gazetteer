@@ -206,6 +206,7 @@ function collapseClicked(obj){
         $("#collapseCountry").collapse('hide')
         $("#collapseCurrency").collapse('hide')
     } else {
+        $("#collapseWeather").collapse('hide')
         $("#collapseCountry").collapse('hide')        
         $("#collapseCurrency").collapse('hide')
     }
