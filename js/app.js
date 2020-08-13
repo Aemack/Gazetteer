@@ -123,6 +123,7 @@ function outputData(obj){
         $("#currencyButton").removeClass('d-none');
     } 
     $("#countryButton").removeClass('d-none'); 
+    $("#weatherButton").removeClass('d-none'); 
     mymap.invalidateSize()
 
     
