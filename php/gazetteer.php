@@ -4,7 +4,7 @@ $result = array();
 function getDirections($from,$end){
     $curl = curl_init();
 
-    curl_setopt($curl, CURLOPT_URL, "https://api.openrouteservice.org/v2/directions/driving-car/geojson");
+    curl_setopt($curl, CURLOPT_URL, "https://api.openrouteservice.org/v2/directions/driving-car/");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HEADER, FALSE);
     curl_setopt($curl, CURLOPT_POST, TRUE);
