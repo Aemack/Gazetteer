@@ -167,7 +167,7 @@ function outputData(obj){
     }
 
     
-    weatherElems = document.getElementById("collapseWeather").children
+    weatherElems = document.getElementById("weatherData").children
     console.log(countryData.weather[0].weather[0].main)
 
     for (i=0;i<weatherElems.length;i++){
