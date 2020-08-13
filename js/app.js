@@ -177,13 +177,13 @@ function outputData(obj){
                 weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-sun"></i>'
                 break;
             case "Clouds":
-                weatherElems[i].innerHTML = '<i class="fas fa-cloud"></i>'
+                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-cloud"></i>'
                 break;
             case "Rain":
-                weatherElems[i].innerHTML = '<i class="fas fa-cloud-rain"></i>'
+                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-cloud-rain"></i>'
                 break;
             case "Snow":
-                weatherElems[i].innerHTML = '<i class="fas fa-snowman"></i>'
+                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-snowman"></i>'
                 break;
         }
         
