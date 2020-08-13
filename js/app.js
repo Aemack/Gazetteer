@@ -121,7 +121,9 @@ function outputData(obj){
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()
-    $("#currencyButton").removeClass('d-none'); 
+    if (countryData.currency.name){
+        $("#currencyButton").removeClass('d-none');
+    } 
     $("#countryButton").removeClass('d-none'); 
     mymap.invalidateSize()
 
