@@ -172,16 +172,16 @@ function outputData(obj){
     console.log(countryData.weather[0].weather[0].main)
     for (i=0;i<countryData.weather.length;i+10){
         switch (countryData.weather[i].weather[0].main){
-            case "clear":
+            case "Clear":
                 weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
                 break;
-            case "clouds":
+            case "Clouds":
                 weatherElems[i].innerHTML = '<i class="fas fa-cloud"></i>'
                 break;
-            case "rain":
+            case "Rain":
                 weatherElems[i].innerHTML = '<i class="fas fa-cloud-rain"></i>'
                 break;
-            case "snow":
+            case "Snow":
                 weatherElems[i].innerHTML = '<i class="fas fa-snowman"></i>'
                 break;
         }
