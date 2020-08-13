@@ -140,23 +140,26 @@ function outputData(){
     
     population = document.createElement("h4");
     population.classList.add("output");
+    population.classList.add("card-body");
     population.innerText ="Population: "+countryData.population
 
     
     currencyName = document.createElement("h4");
     currencyName.classList.add("output");
+    currencyName.classList.add("card-body");
     currencyName.innerText ="Currency Name: "+countryData.currency.name
 
     
     currencyEx = document.createElement("h4");
     currencyEx.classList.add("output");
+    currencyEx.classList.add("card-body");
     currencyEx.innerText ="Exchange Rate: "+ countryData.currency.exchRate
 
 
     document.querySelector("#countryData").appendChild(flagImage)
     document.querySelector("#countryData").appendChild(capitalName)
     document.querySelector("#countryData").appendChild(population)
-    //document.querySelector("#currencyDataElem").appendChild(currencyName)
-    //document.querySelector("#currencyDataElem").appendChild(currencyEx)
+    document.querySelector("#currencyDataElem").appendChild(currencyName)
+    document.querySelector("#currencyDataElem").appendChild(currencyEx)
 
 }
