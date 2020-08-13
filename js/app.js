@@ -112,8 +112,9 @@ function getCountryData(lat,lng){
 
 
 
-function outputData(obj){ 
-    console.log(obj.currency.name)
+function outputData(obj){
+    countryData = obj 
+    console.log(countryData)
     var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
     newMap(obj.geometry.lat,obj.geometry.lng)
