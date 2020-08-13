@@ -19,8 +19,9 @@ window.onload = function(){
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition(loadMap)
         } else {loadMap()}
-            $("#loadingImage").hide();
-        $("#mapid").show(); 
+        $("#loadingImage").hide();
+        $("#mapid").show();
+        $("#optionButtons").show(); 
 
 
 
@@ -74,6 +75,7 @@ function fillSelect(obj){
 function getCountryData(lat,lng){
         document.querySelector(".modal-title").innerText = $("#countryQuery").val();
         $("#mapid").hide()
+        $("#optionButtons").hide(); 
         $("#modalFooter").hide()
         $("#loadingImage").show()
         
@@ -110,6 +112,7 @@ function outputData(obj){
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()
+    $("#optionButtons").show(); 
     mymap.invalidateSize()
 
     
