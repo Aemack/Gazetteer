@@ -40,6 +40,10 @@ function loadMap(coords){
     
     if(coords){
         mymap = L.map('mapid').setView([coords.coords.longitude,coords.coords.longitude], 3)
+        var popup = L.popup()
+            .setLatLng([coords.coords.longitude, coords.coords.longitude])
+            .setContent("You are here!")
+            .openOn(mymap);
     }else{
         mymap = L.map('mapid').setView([0, 0], 3)
     }
@@ -47,6 +51,7 @@ function loadMap(coords){
     const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tiles = L.tileLayer(tileUrl, { attribution });
     tiles.addTo(mymap);
+    
     mymap.invalidateSize()
 }
 
