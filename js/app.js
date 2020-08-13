@@ -159,7 +159,7 @@ function outputData(){
     document.querySelector("#countryData").appendChild(flagImage)
     document.querySelector("#countryData").appendChild(capitalName)
     document.querySelector("#countryData").appendChild(population)
-    document.querySelector("#currencyData").appendChild(currencyName)
-    document.querySelector("#currencyData").appendChild(currencyEx)
+    //document.querySelector("#currencyData").appendChild(currencyName)
+    //document.querySelector("#currencyData").appendChild(currencyEx)
 
 }
