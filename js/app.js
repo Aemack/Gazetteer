@@ -156,6 +156,6 @@ function outputData(obj){
 
 }
 
-function collapseClicked(this){
-    console.log(this)
+function collapseClicked(obj){
+    console.log(obj)
 }
