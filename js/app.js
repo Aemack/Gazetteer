@@ -157,5 +157,5 @@ function outputData(obj){
 }
 
 function collapseClicked(obj){
-    console.log(obj.innerText)
+    console.log(obj.id)
 }
