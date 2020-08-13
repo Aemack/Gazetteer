@@ -71,7 +71,7 @@ function fillSelect(obj){
 function getCountryData(lat,lng){
         document.querySelector(".modal-title").innerText = $("#countryQuery").val();
         $("#mapid").hide()
-        $("#optionButtons").addClass('d-none'); 
+        $("#optionButtons").classList.add('d-none'); 
         $("#modalFooter").hide()
         $("#loadingImage").show()
         
