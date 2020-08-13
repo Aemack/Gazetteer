@@ -93,7 +93,7 @@ function getCountryData(lat,lng){
                 url: 'php/gazetteer.php',
                 dataType: 'json',
                 data: {functionname: 'getAllData', arguments: [country]},
-                success: getDirections
+                success: outputData
                 
             })    
             
@@ -104,9 +104,7 @@ function getCountryData(lat,lng){
                 url: 'php/gazetteer.php',
                 dataType: 'json',
                 data: {functionname: 'getAllData', arguments: [latlng]},
-                success: getDirections,
-                error:function(){
-                }
+                success: outputData
             })
         }
 }
