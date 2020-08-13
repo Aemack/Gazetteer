@@ -129,10 +129,12 @@ function outputData(){
     flagImage = document.createElement("img");
     flagImage.classList.add("output");
     flagImage.classList.add("flag");
+    flagImage.classList.add("card-body");
     flagImage.src=countryData.flag;
 
     capitalName = document.createElement("h4");
     capitalName.classList.add("output");
+    capitalName.classList.add("card-body");
     capitalName.innerText ="Capital: "+countryData.capital
 
     
