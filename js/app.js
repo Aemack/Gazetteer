@@ -157,5 +157,9 @@ function outputData(obj){
 }
 
 function collapseClicked(obj){
-    console.log(obj.id)
+    if (obj.id == "currencyButton"){
+        $("#countryButton").collapse()
+    }else if (obj.id == "currencyButton"){
+        $("#currencyButton").collapse()
+    }
 }
