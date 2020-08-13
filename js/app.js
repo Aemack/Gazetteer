@@ -160,7 +160,6 @@ function outputData(obj){
 function collapseClicked(obj){
     if (obj.id == "currencyButton"){
         $("#collapseCountry").collapse('hide')
-        console.log()
     }else if (obj.id == "countryButton"){
         $("#collapseCurrency").collapse('hide')
     } else {
