@@ -78,7 +78,6 @@ function fillSelect(obj){
 
 //Gets all country data and runs displaying function 
 function getCountryData(lat,lng){
-        document.querySelector(".modal-title").innerText = $("#countryQuery").val();
         $("#mapid").hide()
         $("#countryButton").addClass('d-none'); 
         $("#currencyButton").addClass('d-none'); 
@@ -87,6 +86,7 @@ function getCountryData(lat,lng){
         
         clearOutput()
         if (!lat && !lng){
+        document.querySelector(".modal-title").innerText = $("#countryQuery").val();
             country = $("#countryQuery").val().split(" ").join("%20");
             jQuery.ajax({
                 type: "POST",
@@ -98,6 +98,7 @@ function getCountryData(lat,lng){
             })    
             
         } else {
+            document.querySelector(".modal-title").innerText = "Current Location"
             latlng = lat+","+lng
             jQuery.ajax({
                 type: "POST",
