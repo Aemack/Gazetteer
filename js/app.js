@@ -112,6 +112,7 @@ function getCountryData(lat,lng){
 }
 
 function getDirections(obj){
+    console.log(obj)
     countryData = obj.result;
     directObj = {
         "coordinates":[[currentLocation.lat,currentLocation.lng],[countryData.geometry.lat,countryData.geometry.lng]]
