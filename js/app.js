@@ -1,59 +1,7 @@
 var mymap;
 countryData = {};
 
-function clearOutput(){
-    $("#error").hide()
-    outputs = document.querySelectorAll(".output")
-    outputs.forEach((output)=>{
-        output.remove()
-    })
-}
-
-function getCountryData(lat,lng){
-        document.querySelector(".modal-title").innerText = $("#countryQuery").val();
-        $("#mapid").hide()
-        $("#modalFooter").hide()
-        $("#loadingImage").show()
-        
-        clearOutput()
-        if (!lat && !lng){
-            country = $("#countryQuery").val().split(" ").join("%20");
-            jQuery.ajax({
-                type: "POST",
-                url: 'php/gazetteer.php',
-                dataType: 'json',
-                data: {functionname: 'getAllData', arguments: [country]},
-                success: logData,
-                error:function(){
-                    console.log("Could not locate")
-                    jQuery.ajax({
-                        type: "POST",
-                        url: 'php/gazetteer.php',
-                        dataType: 'json',
-                        data: {functionname: 'getAltData', arguments: [country]},
-                        success: restCountriesData,
-                        error: ()=>{console.log("Error: "+country)}
-                    })
-                }
-            })    
-            
-        } else {
-            latlng = lat+","+lng
-            jQuery.ajax({
-                type: "POST",
-                url: 'php/gazetteer.php',
-                dataType: 'json',
-                data: {functionname: 'getCountryData', arguments: [latlng]},
-                success: restCountriesData,
-                error:function(){
-                    
-                    console.log("ERRUR: CUD NUT FIND CUNTRY")
-                }
-            })
-        }
-    }
-
-
+//Checks for geolocation/runs fillSelect
 window.onload = function(){
     if (navigator.geolocation){
 
@@ -78,17 +26,13 @@ window.onload = function(){
     }
 }
 
-function fillSelect(obj){
-    console.log(obj)
-    for (i =0; i < obj.length;i++){
-        option = document.createElement("option")
-        option.value = obj[i]
-        option.text = obj[i]
-        option.classList.add("dropdown-item")
-        option.href="#"
-        select = document.getElementById("countryQuery")
-        select.add(option)
-    }
+//Remove's output elements
+function clearOutput(){
+    $("#error").hide()
+    outputs = document.querySelectorAll(".output")
+    outputs.forEach((output)=>{
+        output.remove()
+    })
 }
 
 //Initialises Map
@@ -102,12 +46,66 @@ function loadMap(lat,long){
     tiles.addTo(mymap);
     mymap.invalidateSize()
 }
+
 //Loads location onto map
 function newMap(lat, lng){
     mymap.panTo(new L.LatLng(lat, lng));
 }
 
-function logData(obj){
+//Populates the select with options
+function fillSelect(obj){
+    console.log(obj)
+    for (i =0; i < obj.length;i++){
+        option = document.createElement("option")
+        option.value = obj[i]
+        option.text = obj[i]
+        option.classList.add("dropdown-item")
+        option.href="#"
+        select = document.getElementById("countryQuery")
+        select.add(option)
+    }
+}
+
+//Gets all country data and runs displaying function 
+function getCountryData(lat,lng){
+        document.querySelector(".modal-title").innerText = $("#countryQuery").val();
+        $("#mapid").hide()
+        $("#modalFooter").hide()
+        $("#loadingImage").show()
+        
+        clearOutput()
+        if (!lat && !lng){
+            country = $("#countryQuery").val().split(" ").join("%20");
+            jQuery.ajax({
+                type: "POST",
+                url: 'php/gazetteer.php',
+                dataType: 'json',
+                data: {functionname: 'getAllData', arguments: [country]},
+                success: outputData
+                
+            })    
+            
+        } else {
+            latlng = lat+","+lng
+            jQuery.ajax({
+                type: "POST",
+                url: 'php/gazetteer.php',
+                dataType: 'json',
+                data: {functionname: 'getCountryData', arguments: [latlng]},
+                success: restCountriesData,
+                error:function(){
+                    
+                    console.log("ERRUR: CUD NUT FIND CUNTRY")
+                }
+            })
+        }
+}
+
+
+
+
+
+function outputData(obj){ 
     countryData = obj.result;
     console.log(countryData)
     newMap(countryData.geometry.lat,countryData.geometry.lng)
@@ -115,12 +113,6 @@ function logData(obj){
     $("#mapid").show()
     $("#modalFooter").show()
     mymap.invalidateSize()
-    outputData()
-
-}
-
-
-function outputData(){ 
 
     
     $("#loadingImageMod").hide();
