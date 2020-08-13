@@ -1,14 +1,14 @@
 <?php
 $result = array();
 
-function getDirections($coordObj){
+function getDirections($from,$end){
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, "https://api.openrouteservice.org/v2/directions/driving-car/geojson");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HEADER, FALSE);
     curl_setopt($curl, CURLOPT_POST, TRUE);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, '{"coordinates":[[8.681495,49.41461],[8.686507,49.41943]]}');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, '{"coordinates":[['.$from.'],['.$end.']]}');
     
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
       "Accept: application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",

@@ -112,11 +112,13 @@ function getDirections(obj){
     directObj = {
         "coordinates":[[currentLocation.lat,currentLocation.lng],[countryData.geometry.lat,countryData.geometry.lng]]
     }
+    latlong = currentLocation.lat+","+currentLocation.lng
+    destLatlong = countryData.geometry.lat+","+countryData.geometry.lng
     jQuery.ajax({
         type: "POST",
         url: 'php/gazetteer.php',
         dataType: 'json',
-        data: {functionname: 'getDirections', arguments: [directObj]},
+        data: {functionname: 'getDirections', arguments: [latlong,destLatlong]},
         success: outputData,
         error:function(){
         }
