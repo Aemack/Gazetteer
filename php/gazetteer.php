@@ -12,7 +12,8 @@ function getDirections($from,$end){
     
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
         "Accept: application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8",
-      "Content-Type: application/json; charset=utf-8"
+        "Authorization: 5b3ce3597851110001cf624823c917d1ecff477697fade82683b62d9",
+        "Content-Type: application/json; charset=utf-8"
     ));
     
     $result = curl_exec($curl);
