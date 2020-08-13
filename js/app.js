@@ -172,7 +172,7 @@ function outputData(obj){
     console.log(weatherElems)
     for (i=0;i<countryData.weather.length;i++){
         iElem = document.createElement("i").className="fas fa-sun"
-        weatherElems[i].appendChild(iElem)
+        weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
     }
 
     document.querySelector("#imageContainer").appendChild(flagImage)
