@@ -181,8 +181,8 @@ function outputData(obj){
             case "rain":
                 weatherElems[i].innerHTML = '<i class="fas fa-cloud-rain"></i>'
                 break;
-            case "clear":
-                weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
+            case "snow":
+                weatherElems[i].innerHTML = '<i class="fas fa-snowman"></i>'
                 break;
         }
         
