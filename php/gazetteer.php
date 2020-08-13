@@ -16,9 +16,11 @@ function getDirections($coordObj){
       "Content-Type: application/json; charset=utf-8"
     ));
     
-    $r = curl_exec($curl);
+    $result = curl_exec($curl);
     curl_close($curl);
 
+    
+    $r = json_decode($result, true);
     
     return $r;
 
