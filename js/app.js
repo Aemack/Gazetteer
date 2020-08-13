@@ -3,7 +3,6 @@ countryData = {};
 
 //Checks for geolocation/runs fillSelect
 window.onload = function(){
-    if (navigator.geolocation){
 
         jQuery.ajax({
             type: "POST",
@@ -17,13 +16,14 @@ window.onload = function(){
                 $("#error").innerText="Could Not Load Country List"
             }
         })
-    
-        loadMap();
-        $("#loadingImage").hide();
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(loadMap)
+        } else {loadMap()}
+            $("#loadingImage").hide();
         $("#mapid").show(); 
 
 
-    }
+
 }
 
 //Remove's output elements
@@ -36,10 +36,13 @@ function clearOutput(){
 }
 
 //Initialises Map
-function loadMap(lat,long){
+function loadMap(coords){
     
-    mymap = L.map('mapid').setView([0, 0], 3)
-    
+    if(coords){
+        mymap = L.map('mapid').setView([coords.coords.longitude,coords.coords.longitude], 3)
+    }else{
+        mymap = L.map('mapid').setView([0, 0], 3)
+    }
     const attribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>';
     const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tiles = L.tileLayer(tileUrl, { attribution });
