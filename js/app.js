@@ -169,9 +169,8 @@ function outputData(obj){
 
     
     weatherElems = document.getElementById("collapseWeather").children
-    console.log(weatherElems)
+    console.log(countryData)
     for (i=0;i<countryData.weather.length;i++){
-        iElem = document.createElement("i").className="fas fa-sun"
         weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
     }
 
