@@ -19,8 +19,8 @@ window.onload = function(){
         })
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition((position)=>{
-                currentLocation.lat=position.coords.latitude;
-                currentLocation.lng=position.coords.longitude;
+                currentLocation.lat=position.coords.latitude.toFixed(4);
+                currentLocation.lng=position.coords.longitude.toFixed(4);
             })
         } 
         loadMap()
