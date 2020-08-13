@@ -109,7 +109,7 @@ function outputData(obj){
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()
-    $("#optionButtons").show(); 
+    //$("#optionButtons").show(); 
     mymap.invalidateSize()
 
     
