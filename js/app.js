@@ -170,7 +170,7 @@ function outputData(obj){
     
     weatherElems = document.getElementById("collapseWeather").children
     console.log(countryData)
-    for (i=0;i<countryData.weather.length;i++){
+    for (i=0;i<countryData.weather.length;i+10){
         switch (countryData.weather[i].weather.main){
             case "clear":
                 weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
