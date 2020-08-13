@@ -171,7 +171,21 @@ function outputData(obj){
     weatherElems = document.getElementById("collapseWeather").children
     console.log(countryData)
     for (i=0;i<countryData.weather.length;i++){
-        weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
+        switch (countryData.weather[i].weather.main){
+            case "clear":
+                weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
+                break;
+            case "clouds":
+                weatherElems[i].innerHTML = '<i class="fas fa-cloud"></i>'
+                break;
+            case "rain":
+                weatherElems[i].innerHTML = '<i class="fas fa-cloud-rain"></i>'
+                break;
+            case "clear":
+                weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
+                break;
+        }
+        
     }
 
     document.querySelector("#imageContainer").appendChild(flagImage)

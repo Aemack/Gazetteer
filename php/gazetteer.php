@@ -78,7 +78,7 @@ function getAllData($name){
 
     
 
-    $curl = curl_init("https://api.openweathermap.org/data/2.5/forecast?lat=".$result["result"]["geometry"]["lat"]."&lon=".$result["result"]["geometry"]["lng"]."&cnt=5&appid=c0a8cf4628667898c6a3d913189f3596");
+    $curl = curl_init("https://api.openweathermap.org/data/2.5/forecast?lat=".$result["result"]["geometry"]["lat"]."&lon=".$result["result"]["geometry"]["lng"]."&cnt=40&appid=c0a8cf4628667898c6a3d913189f3596");
 
     curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
 	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -89,8 +89,9 @@ function getAllData($name){
     $r = json_decode($json_result, true);
     $i=0;
     foreach( $r["list"] as $day){
-
-        $result["result"]["weather"][$i]=$day;
+        if ($i%10==0){
+           $result["result"]["weather"][$i]=$day;
+        }
         $i++;
     }
 
