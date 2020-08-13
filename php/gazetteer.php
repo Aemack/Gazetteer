@@ -130,6 +130,9 @@ switch($_POST['functionname']) {
     case 'getAllData':
         $result=getAllData(($_POST['arguments'][0]));
         break;
+    case 'getDirections':
+        $result=getDirections(($_POST['arguments'][0]),($_POST['arguments'][1]));
+        break;
 }
 
 echo json_encode($result, JSON_UNESCAPED_UNICODE);
