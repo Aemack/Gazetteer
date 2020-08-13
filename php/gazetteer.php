@@ -13,6 +13,8 @@ function getAllData($name){
     
     $r = json_decode($json_result, true);
     
+    $result["result"]["currency"]["symbol_first"] = $r["results"][0]["annotations"]["currency"]["symbol_first"];
+    $result["result"]["currency"]["symbol"] = $r["results"][0]["annotations"]["currency"]["symbol"];
     $result["result"]["currency"]["name"] = $r["results"][0]["annotations"]["currency"]["name"];
     $result["result"]["currency"]["iso"] = $r["results"][0]["annotations"]["currency"]["iso_code"];
     $result["result"]["ISOa2"] = $r["results"][0]["components"]["ISO_3166-1_alpha-2"];
@@ -68,6 +70,8 @@ function getAllData($name){
     }
 
     $result["result"]["wiki"] = "https://en.wikipedia.org/wiki/".$result["result"]["country"];
+
+
 
     return $result;
 

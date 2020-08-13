@@ -147,8 +147,11 @@ function outputData(obj){
     currencyEx = document.createElement("h4");
     currencyEx.classList.add("output");
     currencyEx.classList.add("card-body");
-    currencyEx.innerText ="Exchange Rate: "+ countryData.currency.exchRate
-
+    if (countryData.currency.symbol_first){
+        currencyEx.innerText ="Exchange Rate: "+countryData.currency.symbol+ countryData.currency.exchRate
+    } else {
+        currencyEx.innerText ="Exchange Rate: "+countryData.currency.exchRate+countryData.currency.symbol
+    }
 
     document.querySelector("#imageContainer").appendChild(flagImage)
     document.querySelector("#countryData").appendChild(capitalName)
