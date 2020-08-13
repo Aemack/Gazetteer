@@ -2,7 +2,7 @@
 $result = array();
 
 function getDirections($from,$destination){
-    $curl = curl_init("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf624823c917d1ecff477697fade82683b62d9&start=".$from."&end=".$destination);
+    $curl = curl_init("https://api.openrouteservice.org/v2/directions/?api_key=5b3ce3597851110001cf624823c917d1ecff477697fade82683b62d9&start=".$from."&end=".$destination);
 
     curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
 	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
