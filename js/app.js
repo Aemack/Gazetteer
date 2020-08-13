@@ -133,7 +133,7 @@ function getDirections(obj){
 
 function outputData(obj){ 
     console.log(obj)
-    var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
+    var marker = L.marker([obj.geometry.lat, obj.geometry.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
     newMap(countryData.geometry.lat,countryData.geometry.lng)
     $("#loadingImage").hide()
