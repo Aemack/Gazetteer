@@ -19,7 +19,7 @@ function getDirections($coordObj){
     $r = curl_exec($curl);
 
     
-    return $result;
+    return $r;
 
 }
 
