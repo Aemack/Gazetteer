@@ -19,9 +19,6 @@ window.onload = function(){
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition(loadMap)
         } else {loadMap()}
-        $("#loadingImage").hide();
-        $("#mapid").show();
-        $("#optionButtons").show(); 
 
 
 
