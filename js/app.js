@@ -12,6 +12,7 @@ function clearOutput(){
 function getCountryData(lat,lng){
         document.querySelector(".modal-title").innerText = $("#countryQuery").val();
         $("#mapid").hide()
+        $("#modalFooter").hide()
         $("#loadingImage").show()
         
         clearOutput()
@@ -110,9 +111,10 @@ function logData(obj){
     countryData = obj.result;
     console.log(countryData)
     newMap(countryData.geometry.lat,countryData.geometry.lng)
-    $("#mapid").show()
-    mymap.invalidateSize()
     $("#loadingImage").hide()
+    $("#mapid").show()
+    $("#modalFooter").show()
+    mymap.invalidateSize()
     outputData()
 
 }
