@@ -167,11 +167,12 @@ function outputData(obj){
         currencyEx.innerText ="Exchange Rate: "+countryData.currency.exchRate+countryData.currency.symbol+ " = $1 USD"
     }
 
-
+    
+    weatherElems = document.getElementById("collapseWeather").childNodes
+    console.log(weatherElems)
     for (i=0;i<countryData.weather.length;i++){
         iElem = document.createElement("i").className="fas fa-sun"
-        weatherElem = document.getElementById(`weatherData${i}`)
-        weatherElem.appendChild(iElem)
+        weatherElems[i].appendChild(iElem)
     }
 
     document.querySelector("#imageContainer").appendChild(flagImage)
