@@ -109,13 +109,14 @@ function getCountryData(lat,lng){
 
 function getDirections(obj){
     countryData = obj.result;
-    latlong = currentLocation.lat+","+currentLocation.lng
-    destLatlong = countryData.geometry.lat+","+countryData.geometry.lng
+    directObj = {
+        "coordinates":[[currentLocation.lat,currentLocation.lng],[countryData.geometry.lat,countryData.geometry.lng]]
+    }
     jQuery.ajax({
         type: "POST",
         url: 'php/gazetteer.php',
         dataType: 'json',
-        data: {functionname: 'getDirections', arguments: [latlong,destLatlong]},
+        data: {functionname: 'getDirections', arguments: [directObj]},
         success: outputData,
         error:function(){
         }
