@@ -168,7 +168,7 @@ function outputData(obj){
     }
 
     
-    weatherElems = document.getElementById("collapseWeather").childNodes
+    weatherElems = document.getElementById("collapseWeather").children
     console.log(weatherElems)
     for (i=0;i<countryData.weather.length;i++){
         iElem = document.createElement("i").className="fas fa-sun"
