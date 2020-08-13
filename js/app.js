@@ -168,7 +168,7 @@ function outputData(obj){
     }
 
 
-    for (i=0;i<countryData.weather.length();i++){
+    for (i=0;i<countryData.weather.length;i++){
         console.log(countryData.weather[i])
     }
 
