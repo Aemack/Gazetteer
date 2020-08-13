@@ -110,30 +110,11 @@ function getCountryData(lat,lng){
         }
 }
 
-function getDirections(obj){
-    console.log(obj)
-    countryData = obj.result;
-    directObj = {
-        "coordinates":[[currentLocation.lat,currentLocation.lng],[countryData.geometry.lat,countryData.geometry.lng]]
-    }
-    latlong = currentLocation.lat+","+currentLocation.lng
-    destLatlong = countryData.geometry.lat.toFixed(4)+","+countryData.geometry.lng.toFixed(4)
-    console.log(latlong)
-    console.log(destLatlong)
-    jQuery.ajax({
-        type: "POST",
-        url: 'php/gazetteer.php',
-        dataType: 'json',
-        data: {functionname: 'getDirections', arguments: [latlong,destLatlong]},
-        success: outputData,
-        error:function(){
-        }
-    })
-}
+
 
 function outputData(obj){ 
     console.log(obj)
-    var marker = L.marker([obj.geometry.lat, obj.geometry.lng]).addTo(mymap);
+    var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
     newMap(countryData.geometry.lat,countryData.geometry.lng)
     $("#loadingImage").hide()
