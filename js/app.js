@@ -158,8 +158,8 @@ function outputData(obj){
 
 function collapseClicked(obj){
     if (obj.id == "currencyButton"){
-        $("#countryButton").collapse()
+        $("#countryButton").collapse('hide')
     }else if (obj.id == "currencyButton"){
-        $("#currencyButton").collapse()
+        $("#currencyButton").collapse('hide')
     }
 }
