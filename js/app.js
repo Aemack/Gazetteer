@@ -113,10 +113,10 @@ function getCountryData(lat,lng){
 
 
 function outputData(obj){ 
-    console.log(obj.result.geometry.lat)
+    console.log(obj.geometry.lat)
     var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
-    newMap(obj.result.geometry.lat,obj.result.geometry.lng)
+    newMap(obj.geometry.lat,obj.geometry.lng)
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()

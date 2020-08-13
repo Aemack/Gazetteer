@@ -98,7 +98,7 @@ function getAllData($name){
 
 
 
-    return $result;
+    return $result["result"];
 
 }
 
