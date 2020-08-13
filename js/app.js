@@ -116,7 +116,7 @@ function outputData(obj){
     console.log(obj)
     var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
-    newMap(countryData.geometry.lat,countryData.geometry.lng)
+    newMap(countryData.result.geometry.lat,countryData.result.geometry.lng)
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()
