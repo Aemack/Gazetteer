@@ -56,17 +56,21 @@
                     </div>
                       <img id="loadingImage" src="img/loading.gif">
                       <div id="imageContainer"></div>
+
+
+
+                      <button id="countryButton" onclick="collapseClicked(this)" class="btn btn-primary mx-auto" type="button" data-toggle="collapse" data-target="#collapseCountry" aria-expanded="false">
+                        Country Data
+                      </button>
+  
+                      <button id="currencyButton" onclick="collapseClicked(this)" class="btn btn-primary mx-auto" type="button" data-toggle="collapse" data-target="#collapseCurrency" aria-expanded="false">
+                        Currency Data
+                      </button>
                   </div>
                   <div id="modalFooter" class="modal-footer text-center ">
 
 
-                    <button id="countryButton" onclick="collapseClicked(this)" class="btn btn-primary mx-auto" type="button" data-toggle="collapse" data-target="#collapseCountry" aria-expanded="false">
-                      Country Data
-                    </button>
 
-                    <button id="currencyButton" onclick="collapseClicked(this)" class="btn btn-primary mx-auto" type="button" data-toggle="collapse" data-target="#collapseCurrency" aria-expanded="false">
-                      Currency Data
-                    </button>
                   
                   <div class="collapse" id="collapseCountry">
                     <div id="countryData" class="card card-body">
