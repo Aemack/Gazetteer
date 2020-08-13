@@ -108,6 +108,7 @@ function getCountryData(lat,lng){
 }
 
 function getDirections(){
+    countryData = obj.result;
     latlong = currentLocation.lat+","+currentLocation.lng
     jQuery.ajax({
         type: "POST",
@@ -121,7 +122,6 @@ function getDirections(){
 }
 
 function outputData(obj){ 
-    countryData = obj.result;
     console.log(currentLocation)
     var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
     marker.bindPopup("YOU ARE <br><b>HERE</b>")
