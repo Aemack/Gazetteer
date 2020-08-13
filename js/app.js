@@ -71,7 +71,7 @@ function fillSelect(obj){
 function getCountryData(lat,lng){
         document.querySelector(".modal-title").innerText = $("#countryQuery").val();
         $("#mapid").hide()
-        $("#optionButtons").classList.add('d-none'); 
+        $("#countryButton").addClass('d-none'); 
         $("#modalFooter").hide()
         $("#loadingImage").show()
         
@@ -108,7 +108,7 @@ function outputData(obj){
     $("#loadingImage").hide()
     $("#mapid").show()
     $("#modalFooter").show()
-    $("#optionButtons").removeClass('d-none'); 
+    $("#countryButton").removeClass('d-none'); 
     mymap.invalidateSize()
 
     
