@@ -115,7 +115,7 @@ function getDirections(obj){
         type: "POST",
         url: 'php/gazetteer.php',
         dataType: 'json',
-        data: {functionname: 'getDirections', arguments: [latlong]},
+        data: {functionname: 'getDirections', arguments: [latlong,destLatlong]},
         success: outputData,
         error:function(){
         }
