@@ -60,7 +60,7 @@ function newMap(lat, lng){
 
 //Populates the select with options
 function fillSelect(obj){
-    console.log(obj)
+    obj.sort()
     for (i =0; i < obj.length;i++){
         option = document.createElement("option")
         option.value = obj[i]
