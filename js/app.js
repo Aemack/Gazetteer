@@ -79,6 +79,7 @@ function getCountryData(lat,lng){
         $("#mapid").hide()
         $("#countryButton").addClass('d-none'); 
         $("#currencyButton").addClass('d-none'); 
+        $("#weatherButton").addClass('d-none'); 
         $("#modalFooter").hide()
         $("#loadingImage").show()
         
