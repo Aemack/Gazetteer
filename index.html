@@ -34,7 +34,7 @@
                   
                 <div class=".container">
 
-                  <button id="searchButton" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
+                  <button onclick="collapseClicked(this)" id="searchButton" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
                 </div>
               </form>
                 
@@ -46,7 +46,7 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title text-center" id="modalLabel"></h5>
-                    <button type="button" onclick="collapseClicked(this)" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
