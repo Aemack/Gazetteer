@@ -123,6 +123,7 @@ function outputData(obj){
     flagImage.classList.add("flag");
     flagImage.classList.add("card-body");
     flagImage.classList.add("mx-auto");
+    flagImage.classList.add("d-block");
     flagImage.src=countryData.flag;
 
     capitalName = document.createElement("h4");
