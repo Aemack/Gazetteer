@@ -29,6 +29,10 @@ window.onload = function(){
 
 }
 
+function currentLocationClicked(){
+    getCountryData(currentLocation.lat,currentLocation.lng)
+}
+
 //Remove's output elements
 function clearOutput(){
     $("#error").hide()
