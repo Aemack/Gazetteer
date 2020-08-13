@@ -170,13 +170,11 @@ function outputData(obj){
     
     weatherElems = document.getElementById("collapseWeather").children
     console.log(countryData.weather[0].weather[0].main)
-    var d = new Date
-    currentDate = d.getDate()
-    console.log(currentDate+1)
+
     for (i=0;i<weatherElems.length;i++){
         switch (countryData.weather[i*10].weather[0].main){
             case "Clear":
-                weatherElems[i].innerHTML = '<i class="fas fa-sun"></i>'
+                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-sun"></i>'
                 break;
             case "Clouds":
                 weatherElems[i].innerHTML = '<i class="fas fa-cloud"></i>'
