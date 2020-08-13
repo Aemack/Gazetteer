@@ -169,9 +169,9 @@ function outputData(obj){
 
 
     for (i=0;i<countryData.weather.length;i++){
-        console.log(countryData.weather[i])
+        iElem = document.createElement("i").className="fas fa-sun"
+        document.getElementById(`#weatherData${i}`).appendChild(iElem)
     }
-
 
     document.querySelector("#imageContainer").appendChild(flagImage)
     document.querySelector("#countryData").appendChild(capitalName)
