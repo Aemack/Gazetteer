@@ -2,47 +2,78 @@
 <html>
     <head>
         <title>Gazetteer</title>
-        <meta charset="utf-8">
+        <meta property="og:image" content="img/globe.jpeg">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         
+        <!--jQuery-->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        
+        <!--Bootstrap-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
+        <!--Leaflet-->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
         <script src="https://kit.fontawesome.com/ef02b9276b.js" crossorigin="anonymous"></script>
-
+        
+        <!--Marker Cluster-->
+        <link src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+        <link src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" crossorigin="anonymous"></script>
+        
+        <!--FontAwesome-->
         <link src="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <!--My Styles-->
         <link href="css/normalize.css" rel="stylesheet">
+        <link href="css/bootstrapedit.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
         <script src="js/app.js"></script>
     </head>
     <body>
+
+      <!--Heading-->
         <header>
             <h1 id="heading">Gazetteer</h1>
+
+            <!--Searchbar-->
             <form onsubmit="event.preventDefault(), getCountryData()">
                 <div class="input-group mb-3"  id="searchbar">
                   
                   <div class="input-group-prepend">
                     <label for="countryQuery" class="input-group-text">Pick a Country</label>
                   </div>
-                    <select class="form-control form-control-lg text-center"  id="countryQuery" name="countryQuery"></select>
+                    <select class="form-control form-control-lg text-center p-1"  id="countryQuery" name="countryQuery"></select>
                   
                     
                 </div>  
                   
                 <div class=".container">
 
-                  <button onclick="collapseClicked(this)" id="searchButton" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
+                  <button onclick="collapseClicked(this)" id="searchButton" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
                 </div>
               </form>
-                
+        </header>
+
+        <!--Instructions-->
+        <p class=" card m-2 text-center"><b>Choose a country</b> And click search to find out infromation like capital city, population, currency details, exchange rates and more!</p>
             
 
-        </header>
+        <!--Current Location Button-->
+        <div class="container d-flex">
+          <div class="input-group">
+          <button id="currentButton" onclick="currentLocationClicked()" class="d-none btn btn-primary mx-auto" type="button" data-toggle="modal" data-target="#exampleModal">
+            Current Location
+          </button>  
+          </div>
+        </div>
+
+
+        <!--Output Modal-->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -53,12 +84,39 @@
                     </button>
                   </div>
                   <div class="modal-body mx-auto">
+                    
+                    <!--Map-->
                     <div id=mapContainer>
                         <div class="mx-auto" id="mapid"></div>
                     </div>
-                      <img id="loadingImage" src="img/loading.gif">
-                      <div id="imageContainer"></div>
 
+                    <!--POI Buttons-->
+                    <div class="d-flex justify-content-around m-1">
+                      <button id="airportButton" onclick="getPOI('airport')" class="btn btn-secondary mx-auto" type="button">
+                        Airports
+                      </button>
+
+                      <button id="zooButton" onclick="getPOI('zoo')" class="btn btn-secondary mx-auto" type="button">
+                        Zoos
+                      </button>
+                    
+                      <button id="museumButton" onclick="getPOI('museum')" class="btn btn-secondary mx-auto" type="button">
+                        Museums
+                      </button>
+
+                      <button id="galleryButton" onclick="getPOI('gallery')" class="btn btn-secondary mx-auto" type="button">
+                        Galleries
+                      </button>
+                    </div>
+
+                      <!--Loading Image-->
+                      <img id="loadingImage" src="img/loading.gif">
+                      
+                      <div id="imageContainer"></div>
+                      
+
+
+                      <!--Option Buttons-->
                     <div id="optionButtons" class="d-flex justify-content-between">
 
                       <button id="countryButton" onclick="collapseClicked(this)" class="btn btn-primary mx-auto" type="button" data-toggle="collapse" data-target="#collapseCountry" aria-expanded="false">
@@ -75,11 +133,10 @@
 
                     </div>
                   </div>
+
+
+                  <!--Modal Footer-->
                   <div id="modalFooter" class="modal-footer text-center ">
-
-
-
-                  
                   <div class="collapse mx-auto" id="collapseCountry">
                     <div id="countryData" class="card card-body">
                     </div>
@@ -112,6 +169,25 @@
               </div>
             </div>
 
-        
+
+
+            <!--Footer-->
+            <footer class="fixed-bottom text-center mx-auto  bg-primary text-white" data-toggle="modal" data-target="#exampleModal">
+              <h5>Information Taken from</h5>
+            </br>
+              <ul class="d-flex justify-content-around list-unstyled">
+                <li class="p-1"><a class="text-white" href="http://restcountries.eu/">Rest Countries</a></li>
+                <li class="h1">|</li>
+                <li class="p-1"><a class="text-white"  href="http://openweathermap.org">Open Weather Map</a></li>
+                <li class="h1">|</li>
+                <li class="p-1"><a class="text-white"  href="https://openexchangerates.org/">Open Exchange Rates</a></li>
+                <li class="h1">|</li>
+                <li class="p-1"><a  class="text-white" href="https://opencagedata.com/">OpenCage</a></li>
+              </ul>
+              <ul class="d-flex justify-content-around list-unstyled">
+                <li class="p-1"><a class="text-white"  href="https://developer.tomtom.com/">Tom Tom</a></li>
+                <li class="p-1"><a class="text-white"  href="https://www.openstreetmap.org/">Open Street Maps</a></li>
+              </ul>
+            </footer>
     </body>
 </html>
