@@ -1,11 +1,10 @@
 <?php
 $result = array();
-$dbName = "id14621135_countryinfo";
-$dbUser = "id14621135_aemac";
+$dbName = "countryinfo";
+$dbUser = "root";
 $dbHost = "localhost";
-$dbPass = "/O8+a?xn&>U6m9xy";
+$dbPass = "";
 
-//TABLES
 
 //Creates main country table
 function createTable(){
