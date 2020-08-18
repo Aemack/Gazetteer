@@ -94,6 +94,32 @@ function showPOI(obj){
     mymap.addLayer(markers)
 }
 
+//Gets POI data from API and calls showAPI
+function getPOI(search){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'getPOI', arguments: [countryData.ISOa2,search]},
+        success: showPOI
+    })    
+}
+
+//Clears map layer then POI puts markers onto new layer 
+function showPOI(obj){
+    if (markerGroup){
+        mymap.removeLayer(markerGroup);
+    }
+    markerGroup = new L.LayerGroup();
+    markerGroup.addTo(mymap)
+    obj.forEach((poi)=>{
+        marker = L.markerClusterGroup()
+        marker.addLayer(L.marker([poi.position.lat, poi.position.lon])).addTo(markerGroup);
+        marker.bindPopup(poi.poi.name)
+        
+    })
+}
+
 //Populates the select with options
 function fillSelectElem(obj){
     obj.sort()
@@ -295,7 +321,30 @@ function updateTable(){
             console.log(obj)
         }
         })
+    }
 
+function updateExchRates(){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'updateExchRates'},
+        success: function(obj){
+            console.log(obj)
+        }
+    })
+}
+
+function createTable(){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'createTable'},
+        success: function(obj){
+            console.log(obj)
+        }
+    })
 }
 
 //Updates exchange rates
