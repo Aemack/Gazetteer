@@ -1,39 +1,46 @@
+//Global Variables
 var mymap;
 var countryData = {};
 var currentLocation = {};
+var layerGroup;
+var markers;
 
-//Checks for geolocation/runs fillSelect
+//Checks for geolocation/runs fillSelect/loads map
 window.onload = function(){
+        createTable()
+        updateExchRates()
+        fillSelect()
 
-        jQuery.ajax({
-            type: "POST",
-            url: 'php/gazetteer.php',
-            dataType: 'json',
-            data: {functionname: 'fillSelect'},
-            success: fillSelect,
-            error:function(){
-                console.log("Error loading country list")
-            }
-        })
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition((position)=>{
                 currentLocation.lat=position.coords.latitude.toFixed(4);
                 currentLocation.lng=position.coords.longitude.toFixed(4);
+                $("#currentButton").removeClass('d-none')
+            }, ()=>{
+                $("#currentButton").addClass('d-none')
             })
         } 
         loadMap()
-
-
-
 }
 
+//Gets countries from Database/API, calls 
+function fillSelect() {
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'fillSelect'},
+        success: fillSelectElem
+    })
+}
+
+//Calls getCountryData with current lat and long
 function currentLocationClicked(){
     getCountryData(currentLocation.lat,currentLocation.lng)
 }
 
 //Remove's output elements
 function clearOutput(){
-    $("#error").hide()
     outputs = document.querySelectorAll(".output")
     outputs.forEach((output)=>{
         output.remove()
@@ -43,11 +50,9 @@ function clearOutput(){
 //Initialises Map
 function loadMap(coords){
     
-    if(coords){
-        mymap = L.map('mapid').setView([coords.coords.longitude,coords.coords.longitude], 3)
-    }else{
-        mymap = L.map('mapid').setView([0, 0], 3)
-    }
+    
+    mymap = L.map('mapid').setView([0, 0], 3)
+    
     const attribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>';
     const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tiles = L.tileLayer(tileUrl, { attribution });
@@ -57,13 +62,45 @@ function loadMap(coords){
 
 //Loads location onto map
 function newMap(lat, lng){
-    mymap.panTo(new L.LatLng(lat, lng));
+    if (markers){
+        mymap.removeLayer(markers);
+    }
+    mymap.setView([lat,lng],3)
+}
+
+//Gets POI data from API and calls showAPI
+function getPOI(search){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'getPOI', arguments: [countryData.ISOa2,search]},
+        success: showPOI
+    })    
+}
+
+//Clears map layer then POI puts markers onto new layer 
+function showPOI(obj){
+    if (markers){
+        mymap.removeLayer(markers);
+    }
+    markers = L.markerClusterGroup()
+    obj.forEach((poi)=>{
+
+        m = (L.marker([poi.position.lat, poi.position.lon]))
+        m.bindPopup(poi.poi.name);
+        markers.addLayer(m);
+    })
+    mymap.addLayer(markers)
 }
 
 //Populates the select with options
-function fillSelect(obj){
+function fillSelectElem(obj){
     obj.sort()
     for (i =0; i < obj.length;i++){
+        if (!obj[i]){
+            continue;
+        }
         option = document.createElement("option")
         option.value = obj[i]
         option.text = obj[i]
@@ -74,8 +111,42 @@ function fillSelect(obj){
     }
 }
 
+//Get GEOJSON country data and apply to map layer 
+function applyCountryBorder(countryname) {
+    if (layerGroup){
+        mymap.removeLayer(layerGroup);
+    }
+    jQuery.ajax({
+        type: "GET",
+        dataType: "json",
+        url:
+          "https://nominatim.openstreetmap.org/search?country=" +
+          countryname.trim() +
+          "&polygon_geojson=1&format=json"
+      })
+      .then(function(data) {
+        layerGroup = new L.LayerGroup();
+        layerGroup.addTo(mymap);
+        L.geoJSON(data[0].geojson, {
+          color: "blue",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.5 
+        }).addTo(layerGroup);
+      });
+  }
+
+
+
 //Gets all country data and runs displaying function 
 function getCountryData(lat,lng){
+        $("#mainOutput").addClass('d-none');
+
+        $("#galleryButton").addClass('d-none');
+        $("#museumButton").addClass('d-none');
+        $("#zooButton").addClass('d-none');
+        $("#airportButton").addClass('d-none');
+
         $("#mapid").hide()
         $("#countryButton").addClass('d-none'); 
         $("#currencyButton").addClass('d-none'); 
@@ -84,46 +155,56 @@ function getCountryData(lat,lng){
         $("#loadingImage").show()
         
         clearOutput()
-        if (!lat && !lng){
+
+
+        if (!lat){
             document.querySelector(".modal-title").innerText = $("#countryQuery").val();
-            country = $("#countryQuery").val().split(" ").join("%20");
+            country = $("#countryQuery").val()
             jQuery.ajax({
                 type: "POST",
                 url: 'php/gazetteer.php',
                 dataType: 'json',
-                data: {functionname: 'getAllData', arguments: [country]},
-                success: outputData
-                
+                data: {functionname: 'getData', arguments: [country]},
+                success: outputData                
             })    
-            
         } else {
-            document.querySelector(".modal-title").innerText = "Current Location"
-            latlng = lat+","+lng
+            document.querySelector(".modal-title").innerText = "Current Location";
+            latLong = lat+","+lng
             jQuery.ajax({
                 type: "POST",
                 url: 'php/gazetteer.php',
                 dataType: 'json',
-                data: {functionname: 'getAllData', arguments: [latlng]},
-                success: outputData
+                data: {functionname: 'getAPIData', arguments: [latLong]},
+                success: outputData                
             })
+
         }
+            
 }
 
-
-
+//Outputs data into modal, creating elements and clearing the old
 function outputData(obj){
-    countryData = obj 
-    var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
-    marker.bindPopup("YOU ARE <br><b>HERE</b>")
+    countryData = obj;
+    if (currentLocation.lat || currentLocation.lng){
+        var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
+        marker.bindPopup("YOU ARE <br><b>HERE</b>")
+    }
     newMap(obj.geometry.lat,obj.geometry.lng)
     $("#loadingImage").hide()
     $("#mapid").show()
+    $("#mainOutput").removeClass('d-none')
+    $("#galleryButton").removeClass('d-none')
+    $("#airportButton").removeClass('d-none')
+    $("#zooButton").removeClass('d-none')
+    $("#museumButton").removeClass('d-none')
     $("#modalFooter").show()
     if (countryData.currency.name){
         $("#currencyButton").removeClass('d-none');
     } 
     $("#countryButton").removeClass('d-none'); 
     $("#weatherButton").removeClass('d-none'); 
+
+    applyCountryBorder(countryData.country)
     mymap.invalidateSize()
 
     
@@ -161,13 +242,16 @@ function outputData(obj){
     currencyEx.classList.add("output");
     currencyEx.classList.add("card-body");
     if (countryData.currency.symbol_first){
-        currencyEx.innerText ="Exchange Rate: "+countryData.currency.symbol+ countryData.currency.exchRate+ " = $1 USD"
+        currencyEx.innerText =`Exchange Rate: ${countryData.currency.symbol}${countryData.currency.exchRate} = $1 USD`
     } else {
-        currencyEx.innerText ="Exchange Rate: "+countryData.currency.exchRate+countryData.currency.symbol+ " = $1 USD"
+        currencyEx.innerText =`Exchange Rate: ${countryData.currency.exchRate}${countryData.currency.symbol} = 1 USD`
     }
 
     
+    
     weatherElems = document.getElementById("weatherData").children
+
+
 
     for (i=0;i<weatherElems.length;i++){
         switch (countryData.weather[i*10].weather[0].main){
@@ -184,6 +268,7 @@ function outputData(obj){
                 weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-snowman"></i>'
                 break;
         }
+
         
     }
 
@@ -192,9 +277,55 @@ function outputData(obj){
     document.querySelector("#countryData").appendChild(population)
     document.querySelector("#currencyData").appendChild(currencyName)
     document.querySelector("#currencyData").appendChild(currencyEx)
+    
+    updateTable();
+    
+    
+    
+}
+
+//Updates Main countyData table
+function updateTable(){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'updateTable', arguments: [countryData.ISOa2,countryData.ISOa3, countryData.capital, countryData.country, countryData.currency.exchRate, countryData.currency.iso, countryData.currency.name, countryData.currency.symbol, countryData.currency.symbol_first, countryData.flag, countryData.geometry.lat, countryData.geometry.lng, countryData.population]},
+        success: function(obj){
+            console.log(obj)
+        }
+        })
 
 }
 
+//Updates exchange rates
+function updateExchRates(){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'updateExchRates'},
+        success: function(obj){
+            console.log(obj)
+        }
+    })
+}
+
+
+//Creates the main table
+function createTable(){
+    jQuery.ajax({
+        type: "POST",
+        url: 'php/gazetteer.php',
+        dataType: 'json',
+        data: {functionname: 'createTable'},
+        success: function(obj){
+            console.log(obj)
+        }
+    })
+}
+
+//Collapses other buttons when clicked
 function collapseClicked(obj){
     if (obj.id == "currencyButton"){
         $("#collapseWeather").collapse('hide')
