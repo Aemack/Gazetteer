@@ -5,6 +5,9 @@ $dbUser = "id14621135_aemac";
 $dbHost = "localhost";
 $dbPass = "/O8+a?xn&>U6m9xy";
 
+//TABLES
+
+//Creates main country table
 function createTable(){
         
     global $dbName, $dbUser, $dbHost, $dbPass;
@@ -41,6 +44,7 @@ function createTable(){
     mysqli_close($link);
 }
 
+//Creates exchange rate table 
 function createExchTable(){
     
 
@@ -69,6 +73,7 @@ function createExchTable(){
     mysqli_close($link);
 }
 
+//Creates country names table and populates it 
 function createCountryTable(){
     
     global $dbName, $dbUser, $dbHost, $dbPass;
@@ -123,6 +128,7 @@ function createCountryTable(){
 
 }
 
+//Updates exchange rates if last updated over 24 hours ago
 function updateTable($iso2,$iso3,$capital,$country,$exchRate,$curIso,$curName,$curSymbol,$curSymbolFirst,$flag,$lat,$lng,$pop){
     createTable();
 
@@ -152,7 +158,7 @@ function updateTable($iso2,$iso3,$capital,$country,$exchRate,$curIso,$curName,$c
     $date = time();
 
 
-    if ($date - $row["dateUpdated"] < 86400 || $row){
+    if ($date - $row["dateUpdated"] < 86400 || !$row){
 
 
         if ($curSymbol){
