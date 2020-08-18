@@ -128,7 +128,7 @@ function createCountryTable(){
 
 }
 
-//Updates exchange rates if last updated over 24 hours ago
+//Updates exchange row in main table if last updated over 24 hours ago
 function updateTable($iso2,$iso3,$capital,$country,$exchRate,$curIso,$curName,$curSymbol,$curSymbolFirst,$flag,$lat,$lng,$pop){
     createTable();
 
@@ -186,13 +186,14 @@ function updateTable($iso2,$iso3,$capital,$country,$exchRate,$curIso,$curName,$c
     mysqli_close($link);
 }
 
+//Updates all exchange rates if not updated in the past 24 hours
 function updateExchRates(){
     
     global $dbName, $dbUser, $dbHost, $dbPass;
 
      createExchTable(); 
 
-     $now = time()*1000;
+     $now = time();
 
     $conn = mysqli_connect($dbHost, $dbUser, $dbPass, $dbName);
 
@@ -206,9 +207,9 @@ function updateExchRates(){
     $row = mysqli_fetch_assoc($res);
     $lastUpdate = $row["dateUpdated"];
 
-    $now = time()*1000;
+    $now = time();
 
-    if ($now - $lastUpdate > 86400000){
+    if ($now - $lastUpdate > 86400){
 
         $exchData = getExchData();
         
@@ -237,6 +238,7 @@ function updateExchRates(){
     }
 }
 
+//Gets Points of Interest details
 function getPOI($iso2, $search){
     $curl = curl_init("https://api.tomtom.com/search/2/search/".$search.".json?limit=75&countrySet=".$iso2."&idxSet=POI&key=MvEgAEbEToe0ItOFpa7TwDnAHJVB1CuA");
 
@@ -254,6 +256,7 @@ function getPOI($iso2, $search){
 
 }
 
+//Checks if database data is recent then either calls getDatabaseData or getAPIData
 function getData($name){
     
 
@@ -291,6 +294,7 @@ function getData($name){
     return $result;
 }
 
+//Gets data from various APIs and returns as object (works with lat,long and country name)
 function getAPIData($name){
         
     global $dbName, $dbUser, $dbHost, $dbPass;
@@ -378,6 +382,7 @@ function getAPIData($name){
 
 }
 
+//Gets data from database and returns an object
 function getDatabaseData($name){
         
     
@@ -442,7 +447,7 @@ function getDatabaseData($name){
 
 }
 
-
+//Gets all exchange rate data from API
 function getExchData(){
     $curl = curl_init("https://openexchangerates.org/api/latest.json?app_id=5eeb7bdfb5d94387a56d7dcd9413b55f");
 
@@ -457,7 +462,7 @@ function getExchData(){
     return $results;
 }
 
-
+//Gets list of countries from API and returns array
 function getCountriesFromAPI(){
     $curl = curl_init("https://restcountries.eu/rest/v2/all");
 
@@ -475,7 +480,7 @@ function getCountriesFromAPI(){
     return $results;
 }
 
-
+//Gets list of country names from database and returns array
 function getCountriesFromDB(){
     
     global $dbName, $dbUser, $dbHost, $dbPass;
@@ -500,6 +505,7 @@ function getCountriesFromDB(){
     return $result;
 }
 
+//Checks if countryName table exists and creates it if not, calls createCountryTable, and then retrieves list from database
 function getCountries(){
 
     global $dbName, $dbUser, $dbHost, $dbPass;
