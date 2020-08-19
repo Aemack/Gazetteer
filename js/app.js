@@ -4,23 +4,16 @@ var countryData = {};
 var currentLocation = {};
 var layerGroup;
 var markers;
+var lastCountry;
 
 //Checks for geolocation/runs fillSelect/loads map
 window.onload = function(){
+        fillSelect()
+        loadMap()
         createTable()
         updateExchRates()
-        fillSelect()
 
-        if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition((position)=>{
-                currentLocation.lat=position.coords.latitude.toFixed(4);
-                currentLocation.lng=position.coords.longitude.toFixed(4);
-                $("#currentButton").removeClass('d-none')
-            }, ()=>{
-                $("#currentButton").addClass('d-none')
-            })
-        } 
-        loadMap()
+        
 }
 
 //Gets countries from Database/API, calls 
@@ -65,7 +58,7 @@ function newMap(lat, lng){
     if (markers){
         mymap.removeLayer(markers);
     }
-    mymap.setView([lat,lng],3)
+    mymap.flyTo([lat,lng],3)
 }
 
 //Gets POI data from API and calls showAPI
@@ -94,32 +87,6 @@ function showPOI(obj){
     mymap.addLayer(markers)
 }
 
-//Gets POI data from API and calls showAPI
-function getPOI(search){
-    jQuery.ajax({
-        type: "POST",
-        url: 'php/gazetteer.php',
-        dataType: 'json',
-        data: {functionname: 'getPOI', arguments: [countryData.ISOa2,search]},
-        success: showPOI
-    })    
-}
-
-//Clears map layer then POI puts markers onto new layer 
-function showPOI(obj){
-    if (markerGroup){
-        mymap.removeLayer(markerGroup);
-    }
-    markerGroup = new L.LayerGroup();
-    markerGroup.addTo(mymap)
-    obj.forEach((poi)=>{
-        marker = L.markerClusterGroup()
-        marker.addLayer(L.marker([poi.position.lat, poi.position.lon])).addTo(markerGroup);
-        marker.bindPopup(poi.poi.name)
-        
-    })
-}
-
 //Populates the select with options
 function fillSelectElem(obj){
     obj.sort()
@@ -135,6 +102,27 @@ function fillSelectElem(obj){
         select = document.getElementById("countryQuery")
         select.add(option)
     }
+
+    
+    lastCountry = localStorage.getItem('country');
+    if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((position)=>{
+            currentLocation.lat=position.coords.latitude.toFixed(4);
+            currentLocation.lng=position.coords.longitude.toFixed(4);
+            if (!lastCountry){
+                getCountryData(currentLocation.lat,currentLocation.lng)
+            } else {
+                console.log(lastCountry)
+                $('#countryQuery').val(lastCountry);
+                getCountryData()
+            }
+             })
+             } else if (lastCountry) {
+                console.log(lastCountry)
+                 $('#countryQuery').val(lastCountry);
+        }
+    
+
 }
 
 //Get GEOJSON country data and apply to map layer 
@@ -168,12 +156,11 @@ function applyCountryBorder(countryname) {
 function getCountryData(lat,lng){
         $("#mainOutput").addClass('d-none');
 
-        $("#galleryButton").addClass('d-none');
-        $("#museumButton").addClass('d-none');
-        $("#zooButton").addClass('d-none');
-        $("#airportButton").addClass('d-none');
+        $("#galleryButton").addClass('invisible');
+        $("#museumButton").addClass('invisible');
+        $("#zooButton").addClass('invisible');
+        $("#airportButton").addClass('invisible');
 
-        $("#mapid").hide()
         $("#countryButton").addClass('d-none'); 
         $("#currencyButton").addClass('d-none'); 
         $("#weatherButton").addClass('d-none'); 
@@ -211,18 +198,20 @@ function getCountryData(lat,lng){
 //Outputs data into modal, creating elements and clearing the old
 function outputData(obj){
     countryData = obj;
+    countryNameValue = $("#countryQuery").val();
+    localStorage.clear();
+    localStorage.setItem('country',countryNameValue)
     if (currentLocation.lat || currentLocation.lng){
         var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
         marker.bindPopup("YOU ARE <br><b>HERE</b>")
     }
     newMap(obj.geometry.lat,obj.geometry.lng)
     $("#loadingImage").hide()
-    $("#mapid").show()
     $("#mainOutput").removeClass('d-none')
-    $("#galleryButton").removeClass('d-none')
-    $("#airportButton").removeClass('d-none')
-    $("#zooButton").removeClass('d-none')
-    $("#museumButton").removeClass('d-none')
+    $("#galleryButton").removeClass('invisible')
+    $("#airportButton").removeClass('invisible')
+    $("#zooButton").removeClass('invisible')
+    $("#museumButton").removeClass('invisible')
     $("#modalFooter").show()
     if (countryData.currency.name){
         $("#currencyButton").removeClass('d-none');
@@ -321,30 +310,7 @@ function updateTable(){
             console.log(obj)
         }
         })
-    }
 
-function updateExchRates(){
-    jQuery.ajax({
-        type: "POST",
-        url: 'php/gazetteer.php',
-        dataType: 'json',
-        data: {functionname: 'updateExchRates'},
-        success: function(obj){
-            console.log(obj)
-        }
-    })
-}
-
-function createTable(){
-    jQuery.ajax({
-        type: "POST",
-        url: 'php/gazetteer.php',
-        dataType: 'json',
-        data: {functionname: 'createTable'},
-        success: function(obj){
-            console.log(obj)
-        }
-    })
 }
 
 //Updates exchange rates

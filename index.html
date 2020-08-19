@@ -59,21 +59,34 @@
                 </div>
               </form>
         </header>
+        <!--POI Buttons-->
+        <div class="d-flex justify-content-around p-1 bg-primary">
+          <button id="airportButton" onclick="getPOI('airport')" class="btn btn-secondary mx-auto" type="button">
+            Airports
+          </button>
 
-        <!--Instructions-->
-        <p class=" card m-2 text-center"><b>Choose a country</b> And click search to find out infromation like capital city, population, currency details, exchange rates and more!</p>
-            
+          <button id="zooButton" onclick="getPOI('zoo')" class="btn btn-secondary mx-auto" type="button">
+            Zoos
+          </button>
+        
+          <button id="museumButton" onclick="getPOI('museum')" class="btn btn-secondary mx-auto" type="button">
+            Museums
+          </button>
 
-        <!--Current Location Button-->
-        <div class="container d-flex">
-          <div class="input-group">
-          <button id="currentButton" onclick="currentLocationClicked()" class="d-none btn btn-primary mx-auto" type="button" data-toggle="modal" data-target="#exampleModal">
-            Current Location
-          </button>  
-          </div>
+          <button id="galleryButton" onclick="getPOI('gallery')" class="btn btn-secondary mx-auto" type="button">
+            Galleries
+          </button>
         </div>
+        <div id="mainBody">
 
 
+        <!--Map-->
+          <div id=mapContainer>
+           <div id="mapid"></div>
+        </div>
+      
+
+    </div>
         <!--Output Modal-->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -86,29 +99,7 @@
                   </div>
                   <div class="modal-body mx-auto">
                     
-                    <!--Map-->
-                    <div id=mapContainer>
-                        <div class="mx-auto" id="mapid"></div>
-                    </div>
-
-                    <!--POI Buttons-->
-                    <div class="d-flex justify-content-around m-1">
-                      <button id="airportButton" onclick="getPOI('airport')" class="btn btn-secondary mx-auto" type="button">
-                        Airports
-                      </button>
-
-                      <button id="zooButton" onclick="getPOI('zoo')" class="btn btn-secondary mx-auto" type="button">
-                        Zoos
-                      </button>
                     
-                      <button id="museumButton" onclick="getPOI('museum')" class="btn btn-secondary mx-auto" type="button">
-                        Museums
-                      </button>
-
-                      <button id="galleryButton" onclick="getPOI('gallery')" class="btn btn-secondary mx-auto" type="button">
-                        Galleries
-                      </button>
-                    </div>
 
                       <!--Loading Image-->
                       <img id="loadingImage" src="img/loading.gif">
@@ -118,6 +109,7 @@
 
 
                       <!--Option Buttons-->
+                      <div id="optionContainer">
                     <div id="optionButtons" class="d-flex justify-content-between">
 
                       <button id="countryButton" onclick="collapseClicked(this)" class="btn btn-primary mx-auto" type="button" data-toggle="collapse" data-target="#collapseCountry" aria-expanded="false">
@@ -133,6 +125,7 @@
                       </button>
 
                     </div>
+                  </div>
                   </div>
 
 
@@ -161,34 +154,12 @@
                       </div>
                       <div id="weatherData3" class="card p-1 mr-2 ml-2">
                       </div>
-                  </div>
-                  </div>
-
-
+                      </div>
+                    </div>
                    </div>
                 </div>
               </div>
             </div>
 
-
-
-            <!--Footer-->
-            <footer class="fixed-bottom text-center mx-auto  bg-primary text-white" data-toggle="modal" data-target="#exampleModal">
-              <h5>Information Taken from</h5>
-            </br>
-              <ul class="d-flex justify-content-around list-unstyled">
-                <li class="p-1"><a class="text-white" href="http://restcountries.eu/">Rest Countries</a></li>
-                <li class="h1">|</li>
-                <li class="p-1"><a class="text-white"  href="http://openweathermap.org">Open Weather Map</a></li>
-                <li class="h1">|</li>
-                <li class="p-1"><a class="text-white"  href="https://openexchangerates.org/">Open Exchange Rates</a></li>
-                <li class="h1">|</li>
-                <li class="p-1"><a  class="text-white" href="https://opencagedata.com/">OpenCage</a></li>
-              </ul>
-              <ul class="d-flex justify-content-around list-unstyled">
-                <li class="p-1"><a class="text-white"  href="https://developer.tomtom.com/">Tom Tom</a></li>
-                <li class="p-1"><a class="text-white"  href="https://www.openstreetmap.org/">Open Street Maps</a></li>
-              </ul>
-            </footer>
     </body>
 </html>
