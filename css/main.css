@@ -51,9 +51,14 @@ html, body {
 .modal-content{
     height:560px;
 }
+    
 
 #optionButtons > .btn{
     width:25%;
+}
+
+.fas{
+    display:inline; 
 }
 
 .card{

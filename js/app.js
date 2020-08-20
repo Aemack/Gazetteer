@@ -5,8 +5,18 @@ var currentLocation = {};
 var layerGroup;
 var markers;
 var lastCountry;
-var airports = L.layerGroup()
 var overlays;
+var baseMaps;
+
+var satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+
+var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
 var layersControl;
 //Checks for geolocation/runs fillSelect/loads map
 window.onload = function(){
@@ -45,16 +55,30 @@ function clearOutput(){
 //Initialises Map
 function loadMap(coords){
     
+    baseMaps = {
+        "Streets": streets,
+        "Satelite": satelite
+    };
+    
     
     mymap = L.map('mapid',{
-        layers:[airports]
+        layers:[streets]
     }).setView([0, 0], 3)
     
+
+
 
     const attribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>';
     const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tiles = L.tileLayer(tileUrl, { attribution });
     tiles.addTo(mymap);
+    
+
+    L.easyButton( 'fas fa-globe-europe', function(){
+     getCountryData()
+    }).addTo(mymap);
+
+    
 
 
     mymap.invalidateSize()
@@ -62,7 +86,7 @@ function loadMap(coords){
 
 //Loads location onto map
 function newMap(lat, lng){
-    mymap.flyTo([lat,lng],3)
+    mymap.flyTo([lat,lng])
 }
 
 //Gets POI data from API and calls showAPI
@@ -85,9 +109,10 @@ function showPOI(obj){
         mymap.removeLayer(airports)
         mymap.removeLayer(zoos)
         mymap.removeLayer(gallerys)
+        mymap.removeLayer(museums)
         layersControl.remove()
     }
-    
+
     
     searchTerms = ["airport","museum","zoo","gallery"];
 
@@ -156,7 +181,10 @@ function showPOI(obj){
         "Museums":museums
     }
 
-    layersControl = L.control.layers(overlays).addTo(mymap)
+
+    
+
+    layersControl = L.control.layers(baseMaps,overlays).addTo(mymap)
 
 }
 
@@ -185,6 +213,12 @@ function fillSelectElem(obj){
         navigator.geolocation.getCurrentPosition((position)=>{
             currentLocation.lat=position.coords.latitude.toFixed(4);
             currentLocation.lng=position.coords.longitude.toFixed(4);
+            
+            L.easyButton( 'fas fa-street-view', function(){
+                currentLocationClicked()
+            }).addTo(mymap);
+
+
             if (!lastCountry){
                 getCountryData(currentLocation.lat,currentLocation.lng)
             } else {
