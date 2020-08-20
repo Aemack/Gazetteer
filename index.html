@@ -37,47 +37,16 @@
     </head>
     <body>
 
-      <!--Heading-->
-        <header>
-            <h1 id="heading">Gazetteer</h1>
 
-            <!--Searchbar-->
-            <form onsubmit="event.preventDefault(), getCountryData()">
-                <div class="input-group mb-3"  id="searchbar">
-                  
-                  <div class="input-group-prepend">
-                    <label for="countryQuery" class="input-group-text">Pick a Country</label>
-                  </div>
-                    <select class="form-control form-control-lg text-center p-1"  id="countryQuery" name="countryQuery"></select>
-                  
-                    
-                </div>  
-                  
-                <div class=".container">
+      <div  id="main">
 
-                  <button onclick="collapseClicked(this)" id="searchButton" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" >Search!</button>
-                </div>
-              </form>
-        </header>
-        <!--POI Buttons-->
-        <div class="d-flex justify-content-around p-1 bg-primary">
-          <button id="airportButton" onclick="getPOI('airport')" class="btn btn-secondary mx-auto" type="button">
-            Airports
-          </button>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary d-flex">
+        <a class="navbar-brand" href="#">Gazetteer</a>
+          <ul class="navbar-nav  float-right w-50">
+              <select class="form-control" id="countryQuery" onchange="getCountryData()"></select>
+          </ul>
+      </nav>
 
-          <button id="zooButton" onclick="getPOI('zoo')" class="btn btn-secondary mx-auto" type="button">
-            Zoos
-          </button>
-        
-          <button id="museumButton" onclick="getPOI('museum')" class="btn btn-secondary mx-auto" type="button">
-            Museums
-          </button>
-
-          <button id="galleryButton" onclick="getPOI('gallery')" class="btn btn-secondary mx-auto" type="button">
-            Galleries
-          </button>
-        </div>
-        <div id="mainBody">
 
 
         <!--Map-->
@@ -86,7 +55,8 @@
         </div>
       
 
-    </div>
+  </div>
+        
         <!--Output Modal-->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -130,8 +100,8 @@
 
 
                   <!--Modal Footer-->
-                  <div id="modalFooter" class="modal-footer text-center ">
-                  <div class="collapse mx-auto" id="collapseCountry">
+                  <div id="modalFooter" class="modal-footer text-center h-50">
+                  <div class="collapse show mx-auto" id="collapseCountry">
                     <div id="countryData" class="card card-body">
                     </div>
                   </div>
@@ -144,7 +114,7 @@
 
                   
                   <div class="collapse mx-auto" id="collapseWeather" >
-                    <div class="card card-body d-flex flex-row" id="weatherData"  >
+                    <div class="card p-3 d-flex justify-space-around flex-row" id="weatherData"  >
                       
                       <div id="weatherData0" class="card p-1 mr-2 ml-2">
                       </div>
@@ -155,9 +125,9 @@
                       <div id="weatherData3" class="card p-1 mr-2 ml-2">
                       </div>
                       </div>
-                    </div>
                    </div>
-                </div>
+                  </div>
+                  </div>
               </div>
             </div>
 

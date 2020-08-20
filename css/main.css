@@ -10,7 +10,7 @@
     --clr-accent1:rgb(16,55,75);
     --clr-accent2: #B6BE9C;
 
-    --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25),0.25em 0.25em 0.75em rgba(0,0,0,.55);
+    --bs: 0.25em 0.25em 0.75em rgba(0,0,0,.25);
 } 
 header, #heading{
     margin:0;
@@ -25,26 +25,39 @@ header, #heading{
     margin: 0; padding: 0; box-sizing: border-box; /* reset */
 }
 
+
 html, body {
-    overflow: hidden;
-    height: 100vh; /* restrict the page width to viewport */
+    height: 100%; /* restrict the page width to viewport */
 }
 
 #mainBody{
-    height:65%;
+    height:100%;
 }
 
+#main{
+    height:100%;
+}
 
 #mapContainer{
-    height:100%;
+    height:calc(100% - 56px);
+    width:100%;
+    
 }
 #mapid {
   width: 100%;
   height: 100%;
 }
 
+.modal-content{
+    height:560px;
+}
 
 .flag{
     width:50%;
+    border: thin;
+    box-shadow: var(--bs);
+    padding:0;
+    margin: 15px;
 }
  
+

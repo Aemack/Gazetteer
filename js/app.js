@@ -5,7 +5,9 @@ var currentLocation = {};
 var layerGroup;
 var markers;
 var lastCountry;
-
+var airports = L.layerGroup()
+var overlays;
+var layersControl;
 //Checks for geolocation/runs fillSelect/loads map
 window.onload = function(){
         fillSelect()
@@ -44,63 +46,137 @@ function clearOutput(){
 function loadMap(coords){
     
     
-    mymap = L.map('mapid').setView([0, 0], 3)
+    mymap = L.map('mapid',{
+        layers:[airports]
+    }).setView([0, 0], 3)
     
+
     const attribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>';
     const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const tiles = L.tileLayer(tileUrl, { attribution });
     tiles.addTo(mymap);
+
+
     mymap.invalidateSize()
 }
 
 //Loads location onto map
 function newMap(lat, lng){
-    if (markers){
-        mymap.removeLayer(markers);
-    }
     mymap.flyTo([lat,lng],3)
 }
 
 //Gets POI data from API and calls showAPI
-function getPOI(search){
+function getPOI(){
     jQuery.ajax({
         type: "POST",
         url: 'php/gazetteer.php',
         dataType: 'json',
-        data: {functionname: 'getPOI', arguments: [countryData.ISOa2,search]},
-        success: showPOI
+        data: {functionname: 'getPOI', arguments: [countryData.ISOa2]},
+        success: showPOI,
+        error: (e)=>{
+            console.log(e)
+        }
     })    
 }
 
 //Clears map layer then POI puts markers onto new layer 
 function showPOI(obj){
-    if (markers){
-        mymap.removeLayer(markers);
+    if (layersControl){
+        mymap.removeLayer(airports)
+        mymap.removeLayer(zoos)
+        mymap.removeLayer(gallerys)
+        layersControl.remove()
     }
-    markers = L.markerClusterGroup()
-    obj.forEach((poi)=>{
+    
+    
+    searchTerms = ["airport","museum","zoo","gallery"];
 
-        m = (L.marker([poi.position.lat, poi.position.lon]))
-        m.bindPopup(poi.poi.name);
-        markers.addLayer(m);
+    var airportIcon = L.icon({
+        iconUrl: 'img/airport.png',
+    
+        iconSize:     [32, 37], // size of the icon
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var galleryIcon = L.icon({
+        iconUrl: 'img/gallery.png',
+    
+        iconSize:     [32, 37], // size of the icon
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var zooIcon = L.icon({
+        iconUrl: 'img/zoo.png',
+    
+        iconSize:     [32, 37], // size of the icon
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var museumIcon = L.icon({
+        iconUrl: 'img/museum.png',
+    
+        iconSize:     [32, 37], // size of the icon
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+
+    
+    airports = L.markerClusterGroup()
+    obj.airport.results.forEach((poi)=>{
+        L.marker([poi.position.lat, poi.position.lon], {icon: airportIcon}).bindPopup(poi.poi.name).addTo(airports);    
     })
-    mymap.addLayer(markers)
+
+    
+    gallerys = L.markerClusterGroup()
+    obj.gallery.results.forEach((poi)=>{
+        L.marker([poi.position.lat, poi.position.lon], {icon: galleryIcon}).bindPopup(poi.poi.name).addTo(gallerys);    
+    })
+
+    
+    museums = L.markerClusterGroup()
+    obj.museum.results.forEach((poi)=>{
+        L.marker([poi.position.lat, poi.position.lon], {icon: museumIcon}).bindPopup(poi.poi.name).addTo(museums);    
+    })
+
+    
+    zoos = L.markerClusterGroup()
+    obj.zoo.results.forEach((poi)=>{
+        L.marker([poi.position.lat, poi.position.lon], {icon: zooIcon}).bindPopup(poi.poi.name).addTo(zoos);    
+    })
+
+    
+    var overlays = {
+        "Aiports":airports,
+        "Zoos":zoos,
+        "Gallerys":gallerys,
+        "Museums":museums
+    }
+
+    layersControl = L.control.layers(overlays).addTo(mymap)
+
 }
 
 //Populates the select with options
 function fillSelectElem(obj){
     obj.sort()
+    select = document.getElementById("countryQuery")
     for (i =0; i < obj.length;i++){
         if (!obj[i]){
             continue;
         }
+        
         option = document.createElement("option")
         option.value = obj[i]
         option.text = obj[i]
         option.classList.add("dropdown-item")
+        option.setAttribute("data-toggle","modal")
+        option.setAttribute("data-target","#exampleModal")
         option.href="#"
-        select = document.getElementById("countryQuery")
-        select.add(option)
+        select.appendChild(option)
     }
 
     
@@ -112,13 +188,11 @@ function fillSelectElem(obj){
             if (!lastCountry){
                 getCountryData(currentLocation.lat,currentLocation.lng)
             } else {
-                console.log(lastCountry)
                 $('#countryQuery').val(lastCountry);
                 getCountryData()
             }
              })
              } else if (lastCountry) {
-                console.log(lastCountry)
                  $('#countryQuery').val(lastCountry);
         }
     
@@ -139,6 +213,8 @@ function applyCountryBorder(countryname) {
           "&polygon_geojson=1&format=json"
       })
       .then(function(data) {
+          var bounds = new L.LatLngBounds([data[0].boundingbox[0],data[0].boundingbox[2]],[data[0].boundingbox[1],data[0].boundingbox[3]]);
+          mymap.fitBounds(bounds)
         layerGroup = new L.LayerGroup();
         layerGroup.addTo(mymap);
         L.geoJSON(data[0].geojson, {
@@ -156,16 +232,21 @@ function applyCountryBorder(countryname) {
 function getCountryData(lat,lng){
         $("#mainOutput").addClass('d-none');
 
-        $("#galleryButton").addClass('invisible');
-        $("#museumButton").addClass('invisible');
-        $("#zooButton").addClass('invisible');
-        $("#airportButton").addClass('invisible');
-
         $("#countryButton").addClass('d-none'); 
         $("#currencyButton").addClass('d-none'); 
-        $("#weatherButton").addClass('d-none'); 
-        $("#modalFooter").hide()
+        $("#weatherButton").addClass('d-none');
+
+            
+        collapseClicked({id:0})
+        
+
+
+
+        //$("#modalFooter").hide()
         $("#loadingImage").show()
+
+        $("#exampleModal").modal('toggle')
+        
         
         clearOutput()
 
@@ -197,22 +278,31 @@ function getCountryData(lat,lng){
 
 //Outputs data into modal, creating elements and clearing the old
 function outputData(obj){
+    
+
+
+
     countryData = obj;
     countryNameValue = $("#countryQuery").val();
     localStorage.clear();
     localStorage.setItem('country',countryNameValue)
     if (currentLocation.lat || currentLocation.lng){
-        var marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(mymap);
+        var homeIcon = L.icon({
+            iconUrl: 'img/home.png',
+           
+            iconSize:     [32, 37], // size of the icon
+            iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+            popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+        });
+        var marker = L.marker([currentLocation.lat, currentLocation.lng],{icon:homeIcon}).addTo(mymap);
         marker.bindPopup("YOU ARE <br><b>HERE</b>")
     }
     newMap(obj.geometry.lat,obj.geometry.lng)
     $("#loadingImage").hide()
     $("#mainOutput").removeClass('d-none')
-    $("#galleryButton").removeClass('invisible')
-    $("#airportButton").removeClass('invisible')
-    $("#zooButton").removeClass('invisible')
-    $("#museumButton").removeClass('invisible')
-    $("#modalFooter").show()
+
+
+    //$("#modalFooter").show()
     if (countryData.currency.name){
         $("#currencyButton").removeClass('d-none');
     } 
@@ -224,6 +314,7 @@ function outputData(obj){
 
     
 
+    getPOI();
     if( document.querySelector(".modal-title").innerText !== countryData.country){
         document.querySelector(".modal-title").innerText = document.querySelector(".modal-title").innerText +" / "+countryData.country;
     }
@@ -267,23 +358,42 @@ function outputData(obj){
     weatherElems = document.getElementById("weatherData").children
 
 
-
     for (i=0;i<weatherElems.length;i++){
+        date = (countryData.weather[i*10].dt_txt).split(" ")
+        dayray = date[0].split("-")
+        day = dayray[2]+"/"+dayray[1]+'<br>'
+        weatherElems[i].innerHTML = day;
         switch (countryData.weather[i*10].weather[0].main){
             case "Clear":
-                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-sun"></i>'
+                weatherElems[i].innerHTML += '<i class="fas fa-sun"></i>'
                 break;
             case "Clouds":
-                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-cloud"></i>'
+                weatherElems[i].innerHTML += '<i class="fas fa-cloud"></i>'
                 break;
             case "Rain":
-                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-cloud-rain"></i>'
+                weatherElems[i].innerHTML += '<i class="fas fa-cloud-rain"></i>'
                 break;
             case "Snow":
-                weatherElems[i].innerHTML = 'Day '+i+'<i class="fas fa-snowman"></i>'
+                weatherElems[i].innerHTML += '<i class="fas fa-snowman"></i>'
                 break;
         }
-
+        temp = (countryData.weather[i*10].main.temp - 273.15).toFixed(1)
+        weatherElems[i].innerHTML += '<br>'+temp+"&#8451"
+        if (temp < 5){
+            weatherElems[i].style.background="#70cdfc";
+        } else if (temp < 10){
+            weatherElems[i].style.background="#b7feec";
+        } else if (temp < 15){
+            weatherElems[i].style.background="#e3ffb4";
+        } else if (temp < 20){
+            weatherElems[i].style.background="#ffd736";
+        } else if (temp < 25){
+            weatherElems[i].style.background="#ff9700";
+        } else if (temp < 35){
+            weatherElems[i].style.background="#fe4d01";
+        }else {
+            weatherElems[i].style.background="#fb1f00";
+        }
         
     }
 
@@ -292,6 +402,8 @@ function outputData(obj){
     document.querySelector("#countryData").appendChild(population)
     document.querySelector("#currencyData").appendChild(currencyName)
     document.querySelector("#currencyData").appendChild(currencyEx)
+    
+    $("#collapseCountry").addClass('show')
     
     updateTable();
     

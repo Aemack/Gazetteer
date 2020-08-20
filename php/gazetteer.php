@@ -1,4 +1,12 @@
 <?php
+/*
+$result = array();
+$dbName = "id14621135_countryinfo";
+$dbUser = "id14621135_aemac";
+$dbHost = "localhost";
+$dbPass = "/O8+a?xn&>U6m9xy";
+*/
+
 $result = array();
 $dbName = "countryinfo";
 $dbUser = "root";
@@ -238,20 +246,27 @@ function updateExchRates(){
 }
 
 //Gets Points of Interest details
-function getPOI($iso2, $search){
-    $curl = curl_init("https://api.tomtom.com/search/2/search/".$search.".json?limit=75&countrySet=".$iso2."&idxSet=POI&key=MvEgAEbEToe0ItOFpa7TwDnAHJVB1CuA");
+function getPOI($iso2)
+{
 
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
-	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $json_result = curl_exec($curl);
+    $searchTerms = ["airport","museum","zoo","gallery"];
 
+    foreach ($searchTerms as $term){
+        $curl = curl_init("https://api.tomtom.com/search/2/search/".$term.".json?limit=75&countrySet=".$iso2."&idxSet=POI&key=MvEgAEbEToe0ItOFpa7TwDnAHJVB1CuA");
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $json_result = curl_exec($curl);
+
+        
+        $r = json_decode($json_result, true);
+
+        $result[$term] = $r;
+    }
     
-    $r = json_decode($json_result, true);
-
-    
-    return $r["results"];
+    return $result;
 
 }
 
@@ -562,7 +577,7 @@ switch($_POST['functionname']) {
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
         break;
     case 'getPOI':
-        $result = getPOI(($_POST['arguments'][0]),($_POST['arguments'][1]));
+        $result = getPOI(($_POST['arguments'][0]));
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
         break;
 }
