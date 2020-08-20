@@ -283,6 +283,9 @@ function outputData(obj){
 
 
     countryData = obj;
+    console.log(typeof(countryData.currency.exchRate))
+    countryData.currency.exchRate = parseFloat(countryData.currency.exchRate).toFixed(2)
+    
     countryNameValue = $("#countryQuery").val();
     localStorage.clear();
     localStorage.setItem('country',countryNameValue)
@@ -341,16 +344,16 @@ function outputData(obj){
     currencyName = document.createElement("h4");
     currencyName.classList.add("output");
     currencyName.classList.add("card-body");
-    currencyName.innerText ="Currency Name: "+countryData.currency.name
+    currencyName.innerHTML ="Currency Name "+countryData.currency.name
 
     
-    currencyEx = document.createElement("h4");
+    currencyEx = document.createElement("h5");
     currencyEx.classList.add("output");
     currencyEx.classList.add("card-body");
     if (countryData.currency.symbol_first){
-        currencyEx.innerText =`Exchange Rate: ${countryData.currency.symbol}${countryData.currency.exchRate} = $1 USD`
+        currencyEx.innerText =`Exchange Rate ${countryData.currency.symbol}${countryData.currency.exchRate}`+ " = 1 USD"
     } else {
-        currencyEx.innerText =`Exchange Rate: ${countryData.currency.exchRate}${countryData.currency.symbol} = 1 USD`
+        currencyEx.innerText =`Exchange Rate ${countryData.currency.exchRate}${countryData.currency.symbol}`+" = 1 USD"
     }
 
     

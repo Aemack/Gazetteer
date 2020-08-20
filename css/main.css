@@ -52,6 +52,13 @@ html, body {
     height:560px;
 }
 
+#optionButtons > .btn{
+    width:25%;
+}
+
+.card{
+    max-height: 200;
+}
 .flag{
     width:50%;
     border: thin;
