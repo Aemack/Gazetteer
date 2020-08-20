@@ -1,11 +1,4 @@
 <?php
-/*
-$result = array();
-$dbName = "id14621135_countryinfo";
-$dbUser = "id14621135_aemac";
-$dbHost = "localhost";
-$dbPass = "/O8+a?xn&>U6m9xy";
-*/
 
 $result = array();
 $dbName = "countryinfo";
